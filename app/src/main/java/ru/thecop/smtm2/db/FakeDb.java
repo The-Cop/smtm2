@@ -5,9 +5,7 @@ import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.DateTimeConverter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class FakeDb {
 
@@ -25,6 +23,10 @@ public class FakeDb {
 
     public static Category findCategoryById(Long id) {
         return categoryTable.get(id);
+    }
+
+    public static List<Category> findCategories() {
+        return new ArrayList<>(categoryTable.values());
     }
 
     private static void fillSpendings() {

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Smtm2</string>
+    <string name="app_name">Show Me The Money 2</string>
+
+    <string name="category_filter_hint">(Filter)</string>
 </resources>
