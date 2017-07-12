@@ -1,9 +1,5 @@
 package ru.thecop.smtm2.model;
 
-/**
- * Created by TheCops-PC on 12.07.2017.
- */
-
 public class Spending {
     private Long id;
 

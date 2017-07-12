@@ -1,12 +1,9 @@
 package ru.thecop.smtm2.model;
 
-/**
- * Created by TheCops-PC on 12.07.2017.
- */
-
 public class Category {
     private Long id;
     private String name;
+    private String lowerCaseName;
 
     public Long getId() {
         return id;
@@ -22,5 +19,10 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+        this.lowerCaseName = name.toLowerCase();
+    }
+
+    public String getLowerCaseName() {
+        return lowerCaseName;
     }
 }
