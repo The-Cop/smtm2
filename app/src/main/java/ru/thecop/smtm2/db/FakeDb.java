@@ -1,5 +1,6 @@
 package ru.thecop.smtm2.db;
 
+import android.util.Log;
 import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
@@ -8,6 +9,8 @@ import ru.thecop.smtm2.util.DateTimeConverter;
 import java.util.*;
 
 public class FakeDb {
+
+    private static final String TAG = "FakeDb";
 
     private static Map<Long, Category> categoryTable = new HashMap<>();
     private static Map<Long, Spending> spendingTable = new HashMap<>();
@@ -29,6 +32,28 @@ public class FakeDb {
         return new ArrayList<>(categoryTable.values());
     }
 
+    public static long saveSpending(Spending s) {
+        if (s.getId() == null) {
+            s.setId(nextSpendingId());
+            Log.d(TAG, "Saving new spending " + s.toString());
+        } else {
+            Log.d(TAG, "Saving editied spending " + s.toString());
+        }
+        spendingTable.put(s.getId(), s);
+        return s.getId();
+    }
+
+    private static long nextSpendingId() {
+        long max = Long.MIN_VALUE;
+        for (Long aLong : spendingTable.keySet()) {
+            if (max < aLong) {
+                max = aLong;
+            }
+        }
+        return max + 1;
+    }
+
+
     private static void fillSpendings() {
         createSpendingInTable(1L, new LocalDateTime(2017, 7, 12, 12, 21), 3.50, 1L);
         createSpendingInTable(2L, new LocalDateTime(2017, 7, 12, 13, 33), 666, 1L);
@@ -45,8 +70,9 @@ public class FakeDb {
 
     private static void fillCategories() {
         createCategoryInTable(1L, "Продукты");
-        createCategoryInTable(2L, "Электроника");
+        createCategoryInTable(2L, "Электроника очень длинное название категории, вряд ли такое будет в реальной жизни, но мало ли наркоманов на свете");
         createCategoryInTable(3L, "Кино");
+
     }
 
     private static Spending createSpendingInTable(Long id, LocalDateTime localDateTime, double amount, long categoryId) {

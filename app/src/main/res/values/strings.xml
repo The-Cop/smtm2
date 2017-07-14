@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Show Me The Money 2</string>
+    <string name="categories_activity_label">Categories</string>
 
     <string name="category_filter_hint">(Filter)</string>
 
     <string name="label_date">Date</string>
     <string name="amount_hint">(Amount)</string>
+    <string name="comment_hint">(Comment)</string>
+
+    <string name="saved">Saved</string>
+    <string name="no_amount">No amount specified</string>
+    <string name="wrong_amount">Amount is not a valid decimal</string>
+    <string name="negative_or_zero_amount">Amount can not be negative or zero</string>
 </resources>

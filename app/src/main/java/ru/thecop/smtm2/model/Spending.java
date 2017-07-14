@@ -6,6 +6,7 @@ public class Spending {
     private long timestamp;
     private double amount;
     private Long categoryId;
+    private String comment;
     private boolean confirmed;//For sms auto parsing - user must confirm sms parsed correctly
 
     private boolean deleted;
@@ -43,6 +44,14 @@ public class Spending {
         this.categoryId = categoryId;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public boolean isConfirmed() {
         return confirmed;
     }
@@ -65,5 +74,19 @@ public class Spending {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public String toString() {
+        return "Spending{" +
+                "id=" + id +
+                ", timestamp=" + timestamp +
+                ", amount=" + amount +
+                ", categoryId=" + categoryId +
+                ", comment='" + comment + '\'' +
+                ", confirmed=" + confirmed +
+                ", deleted=" + deleted +
+                ", uid='" + uid + '\'' +
+                '}';
     }
 }

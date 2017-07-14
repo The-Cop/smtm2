@@ -10,21 +10,11 @@
               android:paddingStart="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView
-            android:id="@+id/textViewSpendingCategoryName"
-            android:text="Category very long oh my god so long category what to do"
-            android:lines="1"
-            android:ellipsize="end"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="20dp">
+            android:gravity="center_vertical">
 
         <TextView
                 android:text="@string/label_date"
@@ -33,24 +23,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
+        <TextView
+                android:id="@+id/textViewSpendingDate"
+                android:text="30.08.2028"
+                android:layout_marginRight="15dp"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <ImageButton
+                android:onClick="decreaseDate"
+                android:layout_marginRight="15dp"
                 android:layout_width="@dimen/round_button_size"
                 android:layout_height="@dimen/round_button_size"
                 android:background="@drawable/round_button"
                 android:src="@drawable/ic_remove_black_24dp"
                 android:tint="@android:color/white"/>
 
-        <TextView
-                android:id="@+id/textViewSpendingDate"
-                android:text="30.08.2028"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
         <ImageButton
+                android:onClick="increaseDate"
                 android:layout_width="@dimen/round_button_size"
                 android:layout_height="@dimen/round_button_size"
                 android:background="@drawable/round_button"
@@ -66,6 +57,13 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:id="@+id/editTextSpendingAmount"/>
+    <EditText
+            android:layout_marginTop="20dp"
+            android:hint="@string/comment_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/editTextSpendingComment"/>
     <View
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,5 +76,6 @@
             android:background="@drawable/round_button_green"
             android:src="@drawable/ic_done_black_24dp"
             android:tint="@android:color/white"
-            android:layout_gravity="bottom|end"/>
+            android:layout_gravity="bottom|end"
+            android:onClick="save"/>
 </LinearLayout>
