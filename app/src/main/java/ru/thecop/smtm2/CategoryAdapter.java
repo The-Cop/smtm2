@@ -15,9 +15,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private Context mContext;
     private List<Category> mData;
+    private CategoryAdapterOnClickHandler mClickHandler;
 
-    public CategoryAdapter(Context mContext) {
+    public CategoryAdapter(Context mContext, CategoryAdapterOnClickHandler mClickHandler) {
         this.mContext = mContext;
+        this.mClickHandler = mClickHandler;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         notifyDataSetChanged();
     }
 
-    class CategoryViewHolder extends RecyclerView.ViewHolder {
+    class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView categoryName;
         ImageView imageAddCategory;
@@ -54,6 +56,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(itemView);
             categoryName = (TextView) itemView.findViewById(R.id.categoryName);
             imageAddCategory = (ImageView) itemView.findViewById(R.id.imageViewCategoryAdd);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Category category = mData.get(position);
+            mClickHandler.onCategoryClick(category.getId());
+        }
+    }
+
+    public interface CategoryAdapterOnClickHandler {
+        void onCategoryClick(long categoryId);
     }
 }

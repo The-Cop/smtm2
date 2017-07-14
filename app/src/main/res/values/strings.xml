@@ -2,4 +2,7 @@
     <string name="app_name">Show Me The Money 2</string>
 
     <string name="category_filter_hint">(Filter)</string>
+
+    <string name="label_date">Date</string>
+    <string name="amount_hint">(Amount)</string>
 </resources>

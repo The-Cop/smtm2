@@ -1,5 +1,6 @@
 package ru.thecop.smtm2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -14,7 +15,7 @@ import ru.thecop.smtm2.model.Category;
 
 import java.util.List;
 
-public class CategoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Category>> {
+public class CategoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Category>>, CategoryAdapter.CategoryAdapterOnClickHandler {
 
     public static final String TAG = "CategoryActivity";
 
@@ -32,14 +33,18 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCategories);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+
         //add item divider
+
         //TODO custom divider thicker
         // https://stackoverflow.com/questions/24618829/how-to-add-dividers-and-spaces-between-items-in-recyclerview
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+
         //Bind adapter to recyclerView
-        mAdapter = new CategoryAdapter(this);
+        mAdapter = new CategoryAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
         //start the loader
@@ -93,5 +98,12 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
 
     @Override
     public void onLoaderReset(Loader<List<Category>> loader) {
+    }
+
+    @Override
+    public void onCategoryClick(long categoryId) {
+        Intent intent = new Intent(CategoryActivity.this, SpendingActivity.class);
+        intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID,categoryId);
+        startActivity(intent);
     }
 }
