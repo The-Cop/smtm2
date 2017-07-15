@@ -31,7 +31,7 @@ public class SpendingActivity extends AppCompatActivity {
     private Spending mEditedSpending = null;//used for editing existing spending
 
 
-    //TODO format decimals to 2 digits after dot
+    //TODO format decimals to 2 digits after dot, add spaces
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,10 +3,26 @@ package ru.thecop.smtm2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import ru.thecop.smtm2.db.FakeDb;
+import ru.thecop.smtm2.model.Spending;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Spending>>{
+
+    private static final int NON_CONFIRMED_SPENDINGS_LOADER_ID = 1;
+    public static final String TAG = "MainActivity";
+
+    private RecyclerView mRecyclerView;
+    private NonConfirmedAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +35,62 @@ public class MainActivity extends AppCompatActivity {
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create a new intent to start an AddTaskActivity
+                // Create a new intent to start an category choose activity
                 Intent selectCategoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
                 startActivity(selectCategoryIntent);
             }
         });
+
+        //Bind adapter to recyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewNonConfirmed);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        //TODO swipe to delete
+        //Bind adapter to recyclerView
+        mAdapter = new NonConfirmedAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        //start the loader
+        getSupportLoaderManager().initLoader(
+                NON_CONFIRMED_SPENDINGS_LOADER_ID,
+                null,
+                this
+        );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
+    }
+
+    @Override
+    public Loader<List<Spending>> onCreateLoader(int id, Bundle args) {
+        return new AsyncTaskLoader<List<Spending>>(this) {
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public List<Spending> loadInBackground() {
+                return FakeDb.findSpendingsNonConfirmed();
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Spending>> loader, List<Spending> data) {
+        mAdapter.setData(data);
+        if (data == null) {
+            Log.e(TAG, "Failed to retrieve non-confirmed spendings");
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Spending>> loader) {
+
     }
 }
