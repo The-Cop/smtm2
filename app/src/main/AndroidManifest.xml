@@ -20,14 +20,16 @@
         </activity>
         <activity
                 android:name=".CategoryActivity"
-                android:noHistory="true"
                 android:label="@string/categories_activity_label"
+                android:noHistory="true"
                 android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".SpendingActivity"
-                android:windowSoftInputMode="adjustResize"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".StatsActivity">
         </activity>
     </application>
 
