@@ -4,6 +4,7 @@ public class Category {
     private Long id;
     private String name;
     private String lowerCaseName;
+    //todo String field with comma-separated list of keywords. If a keyword presents in parsed sms, set this category for spending
 
     public Long getId() {
         return id;

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--todo use constraint layout-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
@@ -28,6 +29,8 @@
                     android:layout_height="0dp"
                     android:visibility="invisible"
                     android:layout_weight="1"/>
+            <!--todo elevation for all buttons-->
+            <!--todo settings screen-->
             <ImageButton
                     android:layout_width="@dimen/main_screes_buttons_size"
                     android:layout_height="@dimen/main_screes_buttons_size"
@@ -69,6 +72,7 @@
                     <!--android:visibility="invisible"-->
                     <!--android:layout_weight="1"/>-->
         </LinearLayout>
+        <!--todo implement edit and okay buttons for list items-->
         <android.support.v7.widget.RecyclerView
                 android:layout_marginTop="16dp"
                 android:id="@+id/recyclerViewNonConfirmed"
@@ -77,6 +81,7 @@
                 android:layout_weight="1"/>
     </LinearLayout>
 
+    <!--todo three bookmarked categories on fab click-->
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"

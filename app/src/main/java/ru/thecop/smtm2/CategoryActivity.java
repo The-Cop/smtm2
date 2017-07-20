@@ -46,6 +46,7 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
         //Bind adapter to recyclerView
         mAdapter = new CategoryAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
+        //todo implement filtering categories
 
         //start the loader
         getSupportLoaderManager().initLoader(

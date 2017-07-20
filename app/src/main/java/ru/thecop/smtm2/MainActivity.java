@@ -16,6 +16,7 @@ import ru.thecop.smtm2.model.Spending;
 
 import java.util.List;
 
+//todo refactor sample android:text to tools:text in layouts
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Spending>>{
 
     private static final int NON_CONFIRMED_SPENDINGS_LOADER_ID = 1;

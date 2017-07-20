@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--todo constraint layout-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+        <!--todo delete date label-->
         <TextView
                 android:text="@string/label_date"
                 style="@style/TextAppearance.AppCompat.Large"
@@ -23,6 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
+        <!--todo larger date text, underlined, accent color-->
+        <!--todo show date pick dialog on click-->
         <TextView
                 android:id="@+id/textViewSpendingDate"
                 android:text="30.08.2028"
