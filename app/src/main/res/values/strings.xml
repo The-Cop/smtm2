@@ -17,8 +17,7 @@
     <string name="stats_total">Total</string>
     <string name="stats_entries_per_day">Entries/day</string>
     <string name="stats_entries">Entries</string>
-    <string name="stats_period">Period</string>
-    <string name="stats_period_days">days</string>
+    <string name="stats_period">Period, days</string>
     <string name="stats_per_day">Per day</string>
     <string name="stats_per_week">Per week</string>
     <string name="stats_per_month">Per month</string>
