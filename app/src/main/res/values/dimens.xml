@@ -6,7 +6,13 @@
     <dimen name="category_item_margin_top">5dp</dimen>
     <dimen name="category_item_margin_bottom">5dp</dimen>
 
+    <dimen name="small_round_button_size">48dp</dimen>
     <dimen name="round_button_size">42dp</dimen>
     <dimen name="save_button_size">54dp</dimen>
-    <dimen name="main_screes_buttons_size">54dp</dimen>
+    <dimen name="main_screen_buttons_size">54dp</dimen>
+
+    <dimen name="stats_totals_text_size">12sp</dimen>
+    <dimen name="stats_totals_distance_from_border">4dp</dimen>
+    <dimen name="stats_totals_distance_from_bottom">4dp</dimen>
+    <dimen name="stats_totals_distance_between_rows">4dp</dimen>
 </resources>

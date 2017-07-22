@@ -12,4 +12,15 @@
     <string name="no_amount">No amount specified</string>
     <string name="wrong_amount">Amount is not a valid decimal</string>
     <string name="negative_or_zero_amount">Amount can not be negative or zero</string>
+
+    <!--Stats activity-->
+    <string name="stats_total">Total</string>
+    <string name="stats_entries_per_day">Entries/day</string>
+    <string name="stats_entries">Entries</string>
+    <string name="stats_period">Period</string>
+    <string name="stats_period_days">days</string>
+    <string name="stats_per_day">Per day</string>
+    <string name="stats_per_week">Per week</string>
+    <string name="stats_per_month">Per month</string>
+    <string name="stats_per_year">Per year</string>
 </resources>
