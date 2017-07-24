@@ -124,7 +124,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_marginStart="24dp"/>
 
     <TextView
             tools:text="—"
@@ -135,9 +136,7 @@
             android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintRight_toLeftOf="@+id/textViewDateTo"
-            android:layout_marginRight="0dp"
             app:layout_constraintLeft_toRightOf="@+id/textViewDateFrom"
-            android:layout_marginLeft="0dp"
             app:layout_constraintHorizontal_bias="0.521"/>
 
     <TextView
@@ -149,7 +148,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_marginEnd="24dp"/>
 
 
     <View
@@ -157,9 +157,7 @@
             android:layout_height="2dp"
             android:id="@+id/horizontalDividerTop"
             android:background="@color/colorAccent"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textViewDateFrom"
@@ -170,13 +168,9 @@
             android:layout_height="0dp"
             android:id="@+id/verticalDivider"
             android:background="@color/colorAccent"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginBottom="0dp"
             app:layout_constraintTop_toTopOf="@+id/labelTotal"
-            android:layout_marginTop="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/labelPeriod"
             app:layout_constraintVertical_bias="0.0"/>
 
@@ -185,7 +179,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/labelTotal"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelEntries"
             android:layout_marginBottom="@dimen/stats_totals_distance_between_rows"
             app:layout_constraintBottom_toTopOf="@+id/labelEntries"
@@ -201,7 +194,8 @@
             android:text="@string/stats_period"
             android:layout_marginLeft="@dimen/stats_totals_distance_from_border"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:textSize="@dimen/stats_totals_text_size"/>
+            android:textSize="@dimen/stats_totals_text_size"
+            android:layout_marginStart="@dimen/stats_totals_distance_from_border"/>
 
     <TextView
             tools:text="2345"
@@ -209,10 +203,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/textViewPeriod"
             app:layout_constraintBottom_toBottomOf="@+id/labelPeriod"
-            android:layout_marginBottom="0dp"
             app:layout_constraintRight_toLeftOf="@+id/verticalDivider"
             android:layout_marginRight="@dimen/stats_totals_distance_from_border"
-            android:textSize="@dimen/stats_totals_text_size"/>
+            android:textSize="@dimen/stats_totals_text_size"
+            android:layout_marginEnd="@dimen/stats_totals_distance_from_border"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -221,7 +215,6 @@
             android:layout_marginBottom="@dimen/stats_totals_distance_between_rows"
             app:layout_constraintBottom_toTopOf="@+id/labelPeriod"
             android:text="@string/stats_entries_per_day"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelPeriod"
             android:textSize="@dimen/stats_totals_text_size"/>
 
@@ -230,21 +223,19 @@
             android:layout_height="wrap_content"
             android:id="@+id/labelPerYear"
             app:layout_constraintBottom_toBottomOf="@+id/labelPeriod"
-            android:layout_marginBottom="0dp"
             app:layout_constraintLeft_toRightOf="@+id/verticalDivider"
             android:layout_marginLeft="@dimen/stats_totals_distance_from_border"
             android:text="@string/stats_per_year"
-            android:textSize="@dimen/stats_totals_text_size"/>
+            android:textSize="@dimen/stats_totals_text_size"
+            android:layout_marginStart="@dimen/stats_totals_distance_from_border"/>
 
     <TextView
             android:text="@string/stats_per_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/labelPerMonth"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelPerYear"
             app:layout_constraintBottom_toBottomOf="@+id/labelEntriesPerDay"
-            android:layout_marginBottom="0dp"
             android:textSize="@dimen/stats_totals_text_size"/>
 
     <TextView
@@ -252,7 +243,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/labelEntries"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelEntriesPerDay"
             android:layout_marginBottom="@dimen/stats_totals_distance_between_rows"
             app:layout_constraintBottom_toTopOf="@+id/labelEntriesPerDay"
@@ -263,10 +253,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/labelPerWeek"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelPerMonth"
             app:layout_constraintBottom_toBottomOf="@+id/labelEntries"
-            android:layout_marginBottom="0dp"
             android:textSize="@dimen/stats_totals_text_size"/>
 
     <TextView
@@ -274,10 +262,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/labelPerDay"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/labelPerWeek"
             app:layout_constraintBottom_toBottomOf="@+id/labelTotal"
-            android:layout_marginBottom="0dp"
             android:textSize="@dimen/stats_totals_text_size"/>
 
     <TextView
@@ -285,30 +271,26 @@
             android:layout_height="wrap_content"
             android:id="@+id/textViewPerYear"
             app:layout_constraintBottom_toBottomOf="@+id/labelPerYear"
-            android:layout_marginBottom="0dp"
             android:layout_marginRight="@dimen/stats_totals_distance_from_border"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="2456789.99"
-            android:textSize="@dimen/stats_totals_text_size"/>
+            android:textSize="@dimen/stats_totals_text_size"
+            android:layout_marginEnd="@dimen/stats_totals_distance_from_border"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewPerMonth"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="@+id/textViewPerYear"
             tools:text="2456789.99"
             app:layout_constraintBottom_toBottomOf="@+id/labelPerMonth"
-            android:layout_marginBottom="-3dp"
             android:textSize="@dimen/stats_totals_text_size"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewPerWeek"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="@+id/textViewPerMonth"
-            android:layout_marginBottom="0dp"
             tools:text="2456789.99"
             app:layout_constraintBottom_toBottomOf="@+id/labelPerWeek"
             android:textSize="@dimen/stats_totals_text_size"/>
@@ -317,11 +299,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewPerDay"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="@+id/textViewPerWeek"
             tools:text="2456789.99"
             app:layout_constraintBottom_toBottomOf="@+id/labelPerDay"
-            android:layout_marginBottom="0dp"
             android:textSize="@dimen/stats_totals_text_size"/>
 
     <TextView
@@ -330,8 +310,6 @@
             android:id="@+id/textViewEntriesPerDay"
             tools:text="123.5"
             app:layout_constraintBottom_toBottomOf="@+id/labelEntriesPerDay"
-            android:layout_marginBottom="0dp"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="@+id/textViewPeriod"
             android:textSize="@dimen/stats_totals_text_size"/>
 
@@ -341,8 +319,6 @@
             android:id="@+id/textViewEntries"
             tools:text="34567"
             app:layout_constraintBottom_toBottomOf="@+id/labelEntries"
-            android:layout_marginBottom="0dp"
-            android:layout_marginRight="-2dp"
             app:layout_constraintRight_toRightOf="@+id/textViewEntriesPerDay"
             android:textSize="@dimen/stats_totals_text_size"/>
 
@@ -352,10 +328,21 @@
             android:id="@+id/textViewTotal"
             tools:text="2456789.99"
             app:layout_constraintBottom_toBottomOf="@+id/labelTotal"
-            android:layout_marginBottom="0dp"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="@+id/textViewEntries"
             android:textSize="@dimen/stats_totals_text_size"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/verticalDivider"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalDividerTop"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:id="@+id/recyclerView"/>
 
 
 </android.support.constraint.ConstraintLayout>

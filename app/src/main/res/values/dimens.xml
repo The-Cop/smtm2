@@ -12,7 +12,7 @@
     <dimen name="main_screen_buttons_size">54dp</dimen>
 
     <dimen name="stats_totals_text_size">12sp</dimen>
-    <dimen name="stats_totals_distance_from_border">4dp</dimen>
-    <dimen name="stats_totals_distance_from_bottom">4dp</dimen>
-    <dimen name="stats_totals_distance_between_rows">4dp</dimen>
+    <dimen name="stats_totals_distance_from_border">3dp</dimen>
+    <dimen name="stats_totals_distance_from_bottom">3dp</dimen>
+    <dimen name="stats_totals_distance_between_rows">0dp</dimen>
 </resources>
