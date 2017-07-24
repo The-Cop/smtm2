@@ -32,6 +32,7 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
     @Override
     public void onBindViewHolder(NonConfirmedViewHolder holder, int position) {
         Spending s = mData.get(position);
+        //todo use spending dto or spending with eager loaded category
         Category c = FakeDb.findCategoryById(s.getCategoryId());
 
         holder.date.setText(DateTimeConverter.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));

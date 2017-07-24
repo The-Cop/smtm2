@@ -94,4 +94,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<List<Spending>> loader) {
 
     }
+
+    public void showStatsActivitySpendings(View view) {
+        Intent statsActiviryIntent = new Intent(MainActivity.this, StatsActivity.class);
+        startActivity(statsActiviryIntent);
+    }
 }

@@ -42,6 +42,20 @@ public class FakeDb {
         return result;
     }
 
+    public static List<Spending> findSpendingsConfirmed() {
+        List<Spending> result = new ArrayList<>();
+        for (Spending spending : spendingTable.values()) {
+            if (spending.isConfirmed()) {
+                result.add(spending);
+            }
+        }
+        return result;
+    }
+
+    public static List<Spending> findAllSpendings() {
+        return new ArrayList<>(spendingTable.values());
+    }
+
     public static long saveSpending(Spending s) {
         if (s.getId() == null) {
             s.setId(nextSpendingId());
@@ -96,6 +110,7 @@ public class FakeDb {
         s.setCategoryId(categoryId);
         s.setUid(UUID.randomUUID().toString());
         s.setConfirmed(confirmed);
+        s.setComment("Test comment - hello world!");
         spendingTable.put(id, s);
         return s;
     }

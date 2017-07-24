@@ -44,6 +44,7 @@
                     android:layout_weight="1"/>
 
             <ImageButton
+                    android:onClick="showStatsActivitySpendings"
                     android:layout_width="@dimen/main_screen_buttons_size"
                     android:layout_height="@dimen/main_screen_buttons_size"
                     android:background="@drawable/round_button"
