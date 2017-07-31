@@ -9,68 +9,37 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
 @Entity
-public class Spending {
+public class CategoryKeyword {
     @Id
     private Long id;
 
-    //TODO test updated on create-update-delete
-    @NotNull
-    private long updatedTimestamp;
-
-    @NotNull
-    private long timestamp;
-
-    @NotNull
-    private double amount;
-
-    @NotNull
-    @ToOne(joinProperty = "categoryId")
-    private Category category;
-    private long categoryId;
-
-    private String comment;
-
-    private String smsText;
-
-    private String smsFrom;
-
-    @NotNull
-    private boolean confirmed;//For sms auto parsing - user must confirm sms parsed correctly
-
-    @NotNull
-    private boolean deleted;
-
     @Unique
     @NotNull
-    private String uid;
+    private String keyword;
+
+    @ToOne(joinProperty = "categoryId")
+    @NotNull
+    private Category category;
+
+    private long categoryId;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
-    @Generated(hash = 593183288)
-    private transient SpendingDao myDao;
+    @Generated(hash = 158412099)
+    private transient CategoryKeywordDao myDao;
 
-    @Generated(hash = 1398711129)
-    public Spending(Long id, long updatedTimestamp, long timestamp, double amount,
-            long categoryId, String comment, String smsText, String smsFrom,
-            boolean confirmed, boolean deleted, @NotNull String uid) {
+    @Generated(hash = 961084839)
+    public CategoryKeyword(Long id, @NotNull String keyword, long categoryId) {
         this.id = id;
-        this.updatedTimestamp = updatedTimestamp;
-        this.timestamp = timestamp;
-        this.amount = amount;
+        this.keyword = keyword;
         this.categoryId = categoryId;
-        this.comment = comment;
-        this.smsText = smsText;
-        this.smsFrom = smsFrom;
-        this.confirmed = confirmed;
-        this.deleted = deleted;
-        this.uid = uid;
     }
 
-    @Generated(hash = 2056300050)
-    public Spending() {
+    @Generated(hash = 373479619)
+    public CategoryKeyword() {
     }
 
     public Long getId() {
@@ -81,28 +50,12 @@ public class Spending {
         this.id = id;
     }
 
-    public long getUpdatedTimestamp() {
-        return this.updatedTimestamp;
+    public String getKeyword() {
+        return this.keyword;
     }
 
-    public void setUpdatedTimestamp(long updatedTimestamp) {
-        this.updatedTimestamp = updatedTimestamp;
-    }
-
-    public long getTimestamp() {
-        return this.timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public double getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public long getCategoryId() {
@@ -111,54 +64,6 @@ public class Spending {
 
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public String getComment() {
-        return this.comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getSmsText() {
-        return this.smsText;
-    }
-
-    public void setSmsText(String smsText) {
-        this.smsText = smsText;
-    }
-
-    public String getSmsFrom() {
-        return this.smsFrom;
-    }
-
-    public void setSmsFrom(String smsFrom) {
-        this.smsFrom = smsFrom;
-    }
-
-    public boolean getConfirmed() {
-        return this.confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
-    public boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getUid() {
-        return this.uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     @Generated(hash = 1372501278)
@@ -233,27 +138,10 @@ public class Spending {
         myDao.update(this);
     }
 
-    @Override
-    public String toString() {
-        return "Spending{" +
-                "id=" + id +
-                ", updatedTimestamp=" + updatedTimestamp +
-                ", timestamp=" + timestamp +
-                ", amount=" + amount +
-                ", categoryId=" + categoryId +
-                ", comment='" + comment + '\'' +
-                ", smsText='" + smsText + '\'' +
-                ", smsFrom='" + smsFrom + '\'' +
-                ", confirmed=" + confirmed +
-                ", deleted=" + deleted +
-                ", uid='" + uid + '\'' +
-                '}';
-    }
-
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 471661326)
+    @Generated(hash = 1759791799)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getSpendingDao() : null;
+        myDao = daoSession != null ? daoSession.getCategoryKeywordDao() : null;
     }
 }

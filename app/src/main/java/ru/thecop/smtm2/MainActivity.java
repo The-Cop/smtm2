@@ -11,7 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import ru.thecop.smtm2.db.FakeDb;
+import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Spending;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public List<Spending> loadInBackground() {
-                return FakeDb.findSpendingsNonConfirmed();
+                return DbHelper.findAllNonConfirmedSpendings((SmtmApplication) getApplication());//FakeDb.findSpendingsNonConfirmed();
             }
         };
     }

@@ -10,7 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import ru.thecop.smtm2.db.FakeDb;
+import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Category;
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
 
             @Override
             public List<Category> loadInBackground() {
-                return FakeDb.findCategories();
+                return DbHelper.findAllCategories((SmtmApplication) getApplication());//FakeDb.findCategories();
             }
         };
     }

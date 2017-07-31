@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import ru.thecop.smtm2.db.FakeDb;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
@@ -32,12 +31,12 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
     @Override
     public void onBindViewHolder(NonConfirmedViewHolder holder, int position) {
         Spending s = mData.get(position);
-        //todo use spending dto or spending with eager loaded category
-        Category c = FakeDb.findCategoryById(s.getCategoryId());
+        Category c = s.getCategory();
+        //todo add sms text textView
 
         holder.date.setText(DateTimeConverter.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
         holder.amount.setText(Double.toString(s.getAmount()));
-        holder.smsFrom.setText("Tinkoff Bank");
+        holder.smsFrom.setText(s.getSmsFrom());
         holder.category.setText(c.getName());
     }
 

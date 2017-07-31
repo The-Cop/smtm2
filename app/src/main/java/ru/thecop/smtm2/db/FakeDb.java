@@ -6,7 +6,11 @@ import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.DateTimeConverter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class FakeDb {
 
@@ -35,7 +39,7 @@ public class FakeDb {
     public static List<Spending> findSpendingsNonConfirmed() {
         List<Spending> result = new ArrayList<>();
         for (Spending spending : spendingTable.values()) {
-            if (!spending.isConfirmed()) {
+            if (!spending.getConfirmed()) {
                 result.add(spending);
             }
         }
@@ -45,7 +49,7 @@ public class FakeDb {
     public static List<Spending> findSpendingsConfirmed() {
         List<Spending> result = new ArrayList<>();
         for (Spending spending : spendingTable.values()) {
-            if (spending.isConfirmed()) {
+            if (spending.getConfirmed()) {
                 result.add(spending);
             }
         }
@@ -107,7 +111,7 @@ public class FakeDb {
         s.setId(id);
         s.setTimestamp(DateTimeConverter.convert(localDateTime));
         s.setAmount(amount);
-        s.setCategoryId(categoryId);
+//        s.setCategoryId(categoryId);
         s.setUid(UUID.randomUUID().toString());
         s.setConfirmed(confirmed);
         s.setComment("Test comment - hello world!");

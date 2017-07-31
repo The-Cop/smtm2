@@ -8,15 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import ru.thecop.smtm2.db.FakeDb;
-import ru.thecop.smtm2.model.Category;
+import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Spending;
-import ru.thecop.smtm2.model.dto.SpendingDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class StatsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<SpendingDto>> {
+public class StatsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Spending>> {
 
     //todo use intent extra to define view mode: spendings/categories
     //todo spinner progressbars everywhere where loaders present
@@ -49,8 +46,8 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     @Override
-    public Loader<List<SpendingDto>> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<List<SpendingDto>>(this) {
+    public Loader<List<Spending>> onCreateLoader(int id, Bundle args) {
+        return new AsyncTaskLoader<List<Spending>>(this) {
 
             @Override
             protected void onStartLoading() {
@@ -58,21 +55,16 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
             }
 
             @Override
-            public List<SpendingDto> loadInBackground() {
+            public List<Spending> loadInBackground() {
                 //todo gather and show totals
-                List<Spending> spendings = FakeDb.findAllSpendings();//findSpendingsConfirmed();//todo only confirmed spendings
-                List<SpendingDto> dtos = new ArrayList<>(spendings.size());
-                for (Spending spending : spendings) {
-                    Category category = FakeDb.findCategoryById(spending.getCategoryId());
-                    dtos.add(new SpendingDto(category, spending));
-                }
-                return dtos;
+                List<Spending> spendings = DbHelper.findAllConfirmedSpendings((SmtmApplication) getApplication());
+                return spendings;
             }
         };
     }
 
     @Override
-    public void onLoadFinished(Loader<List<SpendingDto>> loader, List<SpendingDto> data) {
+    public void onLoadFinished(Loader<List<Spending>> loader, List<Spending> data) {
         mAdapter.setData(data);
         if (data == null) {
             Log.e(TAG, "Failed to retrieve confirmed spendings");
@@ -80,7 +72,7 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     @Override
-    public void onLoaderReset(Loader<List<SpendingDto>> loader) {
+    public void onLoaderReset(Loader<List<Spending>> loader) {
 
     }
 }

@@ -8,13 +8,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.joda.time.LocalDateTime;
-import ru.thecop.smtm2.db.FakeDb;
+import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
 import ru.thecop.smtm2.util.DateTimeConverter;
-
-import java.util.UUID;
 
 public class SpendingActivity extends AppCompatActivity {
 
@@ -47,7 +45,7 @@ public class SpendingActivity extends AppCompatActivity {
         if (categoryId == -1) {
             throw new IllegalArgumentException("CategoryId must be passed");
         }
-        mCategory = FakeDb.findCategoryById(categoryId);
+        mCategory = DbHelper.findCategoryById(categoryId, (SmtmApplication) getApplication());//FakeDb.findCategoryById(categoryId);
 
         //set category name in action bar
         ActionBar actionBar = getSupportActionBar();
@@ -64,7 +62,7 @@ public class SpendingActivity extends AppCompatActivity {
     }
 
     private void loadExistingSpendingValues(long spendingId) {
-        mEditedSpending = FakeDb.findSpendingById(spendingId);
+        mEditedSpending = DbHelper.findSpendingById(spendingId, (SmtmApplication) getApplication());//FakeDb.findSpendingById(spendingId);
         updateDate(DateTimeConverter.convert(mEditedSpending.getTimestamp()));
         updateAmount(mEditedSpending.getAmount());
         mCommentEditText.setText(mEditedSpending.getComment());
@@ -93,20 +91,25 @@ public class SpendingActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
+        //todo write ui-test for saving
         if(!checkAmount()){
             return;
         }
         Spending s = mEditedSpending != null ? mEditedSpending : new Spending();
-        if (!isEditingExisting()) {
-            s.setUid(UUID.randomUUID().toString());
-        }
+
         s.setConfirmed(true);
         s.setAmount(Double.parseDouble(mAmountEditText.getText().toString()));
-        s.setCategoryId(mCategory.getId());
+        s.setCategory(mCategory);
         s.setTimestamp(DateTimeConverter.convert(mDateTime));
         s.setComment(mCommentEditText.getText().toString());
 
-        FakeDb.saveSpending(s);
+//        FakeDb.saveSpending(s);
+        if (isEditingExisting()) {
+            DbHelper.update(s, (SmtmApplication) getApplication());
+        }
+        else {
+            DbHelper.create(s, (SmtmApplication) getApplication());
+        }
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         onBackPressed();
     }

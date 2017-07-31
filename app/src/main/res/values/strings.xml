@@ -22,4 +22,12 @@
     <string name="stats_per_week">Per week</string>
     <string name="stats_per_month">Per month</string>
     <string name="stats_per_year">Per year</string>
+
+    <!--Default categories-->
+    <string-array name="initial_categories_array">
+        <item>Food</item>
+        <item>Cinema</item>
+        <item>Electronics</item>
+    </string-array>
+
 </resources>

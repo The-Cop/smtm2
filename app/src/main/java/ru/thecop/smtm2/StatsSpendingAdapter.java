@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import ru.thecop.smtm2.model.dto.SpendingDto;
+import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.AmountFormatter;
 import ru.thecop.smtm2.util.Constants;
 import ru.thecop.smtm2.util.DateTimeConverter;
@@ -17,7 +17,7 @@ import java.util.List;
 public class StatsSpendingAdapter extends RecyclerView.Adapter<StatsSpendingAdapter.StatSpendingViewHolder> {
 
     private Context mContext;
-    private List<SpendingDto> mData;
+    private List<Spending> mData;
     private StatsSpendingAdapterOnClickHandler mClickHandler;
 
     public StatsSpendingAdapter(Context mContext, StatsSpendingAdapterOnClickHandler mClickHandler) {
@@ -33,12 +33,12 @@ public class StatsSpendingAdapter extends RecyclerView.Adapter<StatsSpendingAdap
 
     @Override
     public void onBindViewHolder(StatSpendingViewHolder holder, int position) {
-        SpendingDto spending = mData.get(position);
+        Spending spending = mData.get(position);
 
         holder.categoryName.setText(spending.getCategory().getName());
-        holder.date.setText(DateTimeConverter.convert(spending.getSpending().getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
-        holder.amount.setText(AmountFormatter.format(spending.getSpending().getAmount()));
-        holder.comment.setText(spending.getSpending().getComment());
+        holder.date.setText(DateTimeConverter.convert(spending.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
+        holder.amount.setText(AmountFormatter.format(spending.getAmount()));
+        holder.comment.setText(spending.getComment());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class StatsSpendingAdapter extends RecyclerView.Adapter<StatsSpendingAdap
         return mData != null ? mData.size() : 0;
     }
 
-    public void setData(List<SpendingDto> data) {
+    public void setData(List<Spending> data) {
         this.mData = data;
         notifyDataSetChanged();
     }
