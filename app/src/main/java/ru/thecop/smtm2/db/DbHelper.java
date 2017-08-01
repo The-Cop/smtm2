@@ -28,7 +28,7 @@ public final class DbHelper {
 
         SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
         spendingDao.insert(spending);
-        Log.d(TAG,"Inserted new spending " + spending.toString());
+        Log.d(TAG, "Inserted new spending " + spending.toString());
         return spending;
     }
 
@@ -67,7 +67,7 @@ public final class DbHelper {
 
         CategoryDao categoryDao = application.getDaoSession().getCategoryDao();
         categoryDao.insert(category);
-        Log.d(TAG,"Inserted new category " + category.toString());
+        Log.d(TAG, "Inserted new category " + category.toString());
         return category;
     }
 
@@ -79,5 +79,15 @@ public final class DbHelper {
     public static List<Category> findAllCategories(SmtmApplication application) {
         CategoryDao categoryDao = application.getDaoSession().getCategoryDao();
         return categoryDao.queryBuilder().orderDesc(CategoryDao.Properties.LowerCaseName).list();
+    }
+
+    public static List<Category> findCategoriesNameContains(String string, SmtmApplication application) {
+        CategoryDao categoryDao = application.getDaoSession().getCategoryDao();
+        //TODO screen string?
+        String like = "%" + string.trim().toLowerCase() + "%";
+        return categoryDao.queryBuilder()
+                .where(CategoryDao.Properties.LowerCaseName.like(like))
+                .orderDesc(CategoryDao.Properties.LowerCaseName)
+                .list();
     }
 }

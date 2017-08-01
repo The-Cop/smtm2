@@ -24,10 +24,12 @@
     <string name="stats_per_year">Per year</string>
 
     <!--Default categories-->
+    <!--todo remove dev items-->
     <string-array name="initial_categories_array">
         <item>Food</item>
         <item>Cinema</item>
         <item>Electronics</item>
+        <item>Тестовая КАТЕГОРИЯ</item>
     </string-array>
 
 </resources>

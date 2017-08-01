@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.joda.time.LocalDateTime;
+import ru.thecop.smtm2.R;
+import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
