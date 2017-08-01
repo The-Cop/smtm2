@@ -21,7 +21,9 @@ import ru.thecop.smtm2.model.Category;
 
 import java.util.List;
 
-public class CategoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Category>>, CategoryAdapter.CategoryAdapterOnClickHandler {
+public class CategoryActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<List<Category>>,
+        CategoryAdapter.CategoryAdapterOnClickHandler {
 
     public static final String TAG = "CategoryActivity";
 
@@ -52,7 +54,8 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
         mEditTextFilter = (EditText) findViewById(R.id.editTextCategoriesFilter);
         mEditTextFilter.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -61,7 +64,8 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -108,12 +112,33 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
             @Override
             public List<Category> loadInBackground() {
                 Log.d(TAG, "Reloading categories");
-                String filterText = mEditTextFilter.getText().toString();
-                if (filterText.trim().isEmpty()) {
+                String trimmedFilterText = mEditTextFilter.getText().toString().trim();
+                if (trimmedFilterText.isEmpty()) {
                     return DbHelper.findAllCategories((SmtmApplication) getApplication());//FakeDb.findCategories();
                 } else {
-                    return DbHelper.findCategoriesNameContains(filterText, (SmtmApplication) getApplication());
+                    List<Category> categories = DbHelper.findCategoriesNameContains(trimmedFilterText, (SmtmApplication) getApplication());
+                    if (!hasExactNameMatch(trimmedFilterText, categories)) {
+                        //if a searched category does not exist - add it to list without id
+                        //to be able to save it as new category if user selects it
+                        Category filterStubCategory = new Category();
+                        filterStubCategory.setName(trimmedFilterText);
+                        categories.add(filterStubCategory);
+                    }
+                    return categories;
                 }
+            }
+
+            private boolean hasExactNameMatch(String filterText, List<Category> categories) {
+                if (categories.isEmpty()) {
+                    return false;
+                }
+                String lowerCaseFilter = filterText.trim().toLowerCase();
+                for (Category category : categories) {
+                    if (category.getLowerCaseName().equals(lowerCaseFilter)) {
+                        return true;
+                    }
+                }
+                return false;
             }
         };
     }
@@ -131,9 +156,13 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
     }
 
     @Override
-    public void onCategoryClick(long categoryId) {
+    public void onCategoryClick(Category category) {
+        if (category.getId() == null) {
+            //save new category
+            DbHelper.create(category, (SmtmApplication) getApplication());
+        }
         Intent intent = new Intent(CategoryActivity.this, SpendingActivity.class);
-        intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, categoryId);
+        intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
         startActivity(intent);
     }
 }

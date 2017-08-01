@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/category_item_margin_top"
-        android:layout_marginBottom="@dimen/category_item_margin_bottom">
+              android:gravity="center_vertical"
+              android:layout_marginTop="@dimen/category_item_margin_top"
+              android:layout_marginBottom="@dimen/category_item_margin_bottom">
+
     <ImageView
             android:id="@+id/imageViewCategoryAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_input_add" />
+            app:srcCompat="@drawable/ic_add_black_24px"
+            />
+    <!--todo may be use "add circle outline"?-->
     <TextView
-            android:text="Test text category"
+            tools:text="Test text category"
             android:id="@+id/categoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

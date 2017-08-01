@@ -78,7 +78,9 @@ public final class DbHelper {
 
     public static List<Category> findAllCategories(SmtmApplication application) {
         CategoryDao categoryDao = application.getDaoSession().getCategoryDao();
-        return categoryDao.queryBuilder().orderDesc(CategoryDao.Properties.LowerCaseName).list();
+        return categoryDao.queryBuilder()
+                .orderAsc(CategoryDao.Properties.LowerCaseName)
+                .list();
     }
 
     public static List<Category> findCategoriesNameContains(String string, SmtmApplication application) {
@@ -87,7 +89,7 @@ public final class DbHelper {
         String like = "%" + string.trim().toLowerCase() + "%";
         return categoryDao.queryBuilder()
                 .where(CategoryDao.Properties.LowerCaseName.like(like))
-                .orderDesc(CategoryDao.Properties.LowerCaseName)
+                .orderAsc(CategoryDao.Properties.LowerCaseName)
                 .list();
     }
 }

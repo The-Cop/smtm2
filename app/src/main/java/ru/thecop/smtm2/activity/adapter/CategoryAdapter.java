@@ -35,7 +35,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.categoryName.setText(category.getName());
         //set plus image invisible
-        holder.imageAddCategory.setVisibility(View.GONE);
+        if (category.getId() != null) {
+            holder.imageAddCategory.setVisibility(View.GONE);
+        } else {
+            holder.imageAddCategory.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -64,11 +68,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         public void onClick(View v) {
             int position = getAdapterPosition();
             Category category = mData.get(position);
-            mClickHandler.onCategoryClick(category.getId());
+            mClickHandler.onCategoryClick(category);
         }
     }
 
     public interface CategoryAdapterOnClickHandler {
-        void onCategoryClick(long categoryId);
+        void onCategoryClick(Category category);
     }
 }
