@@ -1,4 +1,4 @@
-package ru.thecop.smtm2;
+package ru.thecop.smtm2.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import ru.thecop.smtm2.R;
+import ru.thecop.smtm2.SmtmApplication;
+import ru.thecop.smtm2.activity.adapter.NonConfirmedAdapter;
 import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Spending;
 

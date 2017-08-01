@@ -1,4 +1,4 @@
-package ru.thecop.smtm2;
+package ru.thecop.smtm2.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
