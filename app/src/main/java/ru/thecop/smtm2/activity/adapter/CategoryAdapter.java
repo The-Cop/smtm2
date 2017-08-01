@@ -59,7 +59,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            categoryName = (TextView) itemView.findViewById(R.id.categoryName);
+            categoryName = (TextView) itemView.findViewById(R.id.textViewCategoryName);
             imageAddCategory = (ImageView) itemView.findViewById(R.id.imageViewCategoryAdd);
             itemView.setOnClickListener(this);
         }

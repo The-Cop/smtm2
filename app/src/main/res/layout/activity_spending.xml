@@ -19,12 +19,6 @@
             android:gravity="center_vertical">
 
         <!--todo delete date label-->
-        <TextView
-                android:text="@string/label_date"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
 
         <!--todo larger date text, underlined, accent color-->
         <!--todo show date pick dialog on click-->
@@ -32,6 +26,7 @@
                 android:id="@+id/textViewSpendingDate"
                 android:text="30.08.2028"
                 android:layout_marginRight="15dp"
+                android:layout_weight="1"
                 style="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
