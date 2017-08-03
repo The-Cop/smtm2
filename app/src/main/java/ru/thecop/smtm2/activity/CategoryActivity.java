@@ -27,11 +27,17 @@ public class CategoryActivity extends AppCompatActivity implements
 
     public static final String TAG = "CategoryActivity";
 
+    public static final String EXTRA_SPENDING_ID = "SpendingId";
+    //TODO if spending is not confirmed, open an keyword adding activity for selected category
+    public static final String EXTRA_SPENDING_NON_CONFIRMED = "SpendingNonConfirmed";
+
     private static final int CATEGORIES_LOADER_ID = 0;
 
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
     private EditText mEditTextFilter;
+
+    private Long mEditedSpendingId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,11 @@ public class CategoryActivity extends AppCompatActivity implements
 
         initFilterEditText();
         initRecyclerAndAdapter();
-        //todo implement filtering categories
+
+        //if chosing category for existing spending (editing it) - save the id
+        if (getIntent().hasExtra(EXTRA_SPENDING_ID)) {
+            mEditedSpendingId = getIntent().getLongExtra(EXTRA_SPENDING_ID, -1);
+        }
 
         //start the loader
         getSupportLoaderManager().initLoader(
@@ -163,6 +173,10 @@ public class CategoryActivity extends AppCompatActivity implements
         }
         Intent intent = new Intent(CategoryActivity.this, SpendingActivity.class);
         intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
+        //if editing an existing spending, pass the id
+        if (mEditedSpendingId != null) {
+            intent.putExtra(SpendingActivity.EXTRA_SPENDING_ID, mEditedSpendingId);
+        }
         startActivity(intent);
     }
 }

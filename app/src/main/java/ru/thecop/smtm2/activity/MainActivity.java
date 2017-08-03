@@ -20,7 +20,9 @@ import ru.thecop.smtm2.model.Spending;
 import java.util.List;
 
 //todo refactor sample android:text to tools:text in layouts
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Spending>>{
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<List<Spending>>,
+        NonConfirmedAdapter.NonConfirmedAdapterButtonsClickHandler{
 
     private static final int NON_CONFIRMED_SPENDINGS_LOADER_ID = 1;
     public static final String TAG = "MainActivity";
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //TODO swipe to delete
         //Bind adapter to recyclerView
-        mAdapter = new NonConfirmedAdapter(this);
+        mAdapter = new NonConfirmedAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
         //start the loader
@@ -61,12 +63,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 null,
                 this
         );
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
     }
 
     @Override
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public List<Spending> loadInBackground() {
+                Log.d(TAG,"loadInBackground mainactivity");
                 return DbHelper.findAllNonConfirmedSpendings((SmtmApplication) getApplication());//FakeDb.findSpendingsNonConfirmed();
             }
         };
@@ -101,5 +98,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void showStatsActivitySpendings(View view) {
         Intent statsActiviryIntent = new Intent(MainActivity.this, StatsActivity.class);
         startActivity(statsActiviryIntent);
+    }
+
+    @Override
+    public void confirmButtonClick(Spending spending) {
+        spending.setConfirmed(true);
+        DbHelper.update(spending, (SmtmApplication) getApplication());
+        getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
+    }
+
+    @Override
+    public void editButtonClick(Spending spending) {
+        //todo implement
+        Intent selectCategoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
+        selectCategoryIntent.putExtra(CategoryActivity.EXTRA_SPENDING_ID, spending.getId());
+        startActivity(selectCategoryIntent);
     }
 }

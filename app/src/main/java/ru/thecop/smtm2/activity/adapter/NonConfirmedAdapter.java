@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.model.Category;
@@ -18,9 +19,12 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
 
     private Context mContext;
     private List<Spending> mData;
+    private NonConfirmedAdapterButtonsClickHandler buttonsClickHandler;
 
-    public NonConfirmedAdapter(Context mContext) {
+    public NonConfirmedAdapter(Context mContext,
+                               NonConfirmedAdapterButtonsClickHandler buttonsClickHandler) {
         this.mContext = mContext;
+        this.buttonsClickHandler = buttonsClickHandler;
     }
 
     @Override
@@ -57,6 +61,8 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
         TextView amount;
         TextView smsFrom;
         TextView category;
+        ImageButton confirmButton;
+        ImageButton editButton;
 
         public NonConfirmedViewHolder(View itemView) {
             super(itemView);
@@ -64,8 +70,33 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
             amount = (TextView) itemView.findViewById(R.id.textViewAmount);
             smsFrom = (TextView) itemView.findViewById(R.id.textViewSmsFrom);
             category = (TextView) itemView.findViewById(R.id.textViewCategory);
-        }
+            confirmButton = (ImageButton) itemView.findViewById(R.id.imageButtonConfirm);
+            editButton = (ImageButton) itemView.findViewById(R.id.imageButtonEdit);
 
+            confirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Spending spending = mData.get(position);
+                    buttonsClickHandler.confirmButtonClick(spending);
+                }
+            });
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Spending spending = mData.get(position);
+                    buttonsClickHandler.editButtonClick(spending);
+                }
+            });
+        }
+    }
+
+    public interface NonConfirmedAdapterButtonsClickHandler {
+        void confirmButtonClick(Spending spending);
+
+        void editButtonClick(Spending spending);
     }
 
 }

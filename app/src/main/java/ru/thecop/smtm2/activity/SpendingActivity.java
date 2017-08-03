@@ -66,7 +66,7 @@ public class SpendingActivity extends AppCompatActivity {
     private void loadExistingSpendingValues(long spendingId) {
         mEditedSpending = DbHelper.findSpendingById(spendingId, (SmtmApplication) getApplication());//FakeDb.findSpendingById(spendingId);
         updateDate(DateTimeConverter.convert(mEditedSpending.getTimestamp()));
-        updateAmount(mEditedSpending.getAmount());
+        updateAmountAndSelectAll(mEditedSpending.getAmount());
         mCommentEditText.setText(mEditedSpending.getComment());
     }
 
@@ -84,8 +84,9 @@ public class SpendingActivity extends AppCompatActivity {
         mDateTextView.setText(dateString);
     }
 
-    public void updateAmount(double amount){
+    public void updateAmountAndSelectAll(double amount){
         mAmountEditText.setText(Double.toString(amount));
+        mAmountEditText.selectAll();
     }
 
     private boolean isEditingExisting() {
@@ -105,7 +106,6 @@ public class SpendingActivity extends AppCompatActivity {
         s.setTimestamp(DateTimeConverter.convert(mDateTime));
         s.setComment(mCommentEditText.getText().toString());
 
-//        FakeDb.saveSpending(s);
         if (isEditingExisting()) {
             DbHelper.update(s, (SmtmApplication) getApplication());
         }

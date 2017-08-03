@@ -36,6 +36,7 @@ public final class DbHelper {
         spending.setUpdatedTimestamp(DateTimeConverter.convert(LocalDateTime.now()));
         SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
         spendingDao.update(spending);
+        Log.d(TAG, "Updated spending " + spending.toString());
     }
 
     public static List<Spending> findAllNonConfirmedSpendings(SmtmApplication application) {
