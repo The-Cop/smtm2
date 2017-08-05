@@ -1,26 +1,32 @@
 package ru.thecop.smtm2.activity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.db.DbHelper;
+import ru.thecop.smtm2.dialog.DatePickerDialogFragment;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
 import ru.thecop.smtm2.util.DateTimeConverter;
 
-public class SpendingActivity extends AppCompatActivity {
+public class SpendingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
 
     public static final String EXTRA_SPENDING_ID = "SpendingId";
     public static final String EXTRA_CATEGORY_ID = "CategoryId";
+    private static final String DATE_PIRCKER_DIALOG_TAG = "DatePickerDialogTag";
 
     private TextView mDateTextView;
     private EditText mAmountEditText;
@@ -136,5 +142,15 @@ public class SpendingActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void showDatePickerDialog(View view) {
+        DatePickerDialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mDateTime, this);
+        datePickerDialogFragment.show(getSupportFragmentManager(),DATE_PIRCKER_DIALOG_TAG);
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        updateDate(new LocalDate(year,month+1,dayOfMonth).toLocalDateTime(LocalTime.MIDNIGHT));
     }
 }

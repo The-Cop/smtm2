@@ -23,6 +23,7 @@
         <!--todo larger date text, underlined, accent color-->
         <!--todo show date pick dialog on click-->
         <TextView
+                android:onClick="showDatePickerDialog"
                 android:id="@+id/textViewSpendingDate"
                 android:text="30.08.2028"
                 android:layout_marginRight="15dp"
