@@ -73,7 +73,7 @@
                 android:layout_height="@dimen/small_round_button_size"
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/round_button"
-                android:text="31"
+                android:text="30"
                 android:textColor="@android:color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:id="@+id/buttonMonth"/>
@@ -117,6 +117,7 @@
 
     <TextView
             tools:text="30.08.2088"
+            android:onClick="showFromDatePickerDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewDateFrom"
@@ -141,6 +142,7 @@
 
     <TextView
             tools:text="30.08.2088"
+            android:onClick="showToDatePickerDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewDateTo"

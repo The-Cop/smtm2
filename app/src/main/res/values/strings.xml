@@ -12,6 +12,8 @@
     <string name="wrong_amount">Amount is not a valid decimal</string>
     <string name="negative_or_zero_amount">Amount can not be negative or zero</string>
 
+    <string name="from_date_after_to_date">From date can not be after to date</string>
+
     <!--Stats activity-->
     <string name="stats_total">Total</string>
     <string name="stats_entries_per_day">Entries/day</string>

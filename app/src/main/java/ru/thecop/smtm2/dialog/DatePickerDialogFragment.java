@@ -6,14 +6,19 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 public class DatePickerDialogFragment extends DialogFragment {
 
-    private LocalDateTime date;
+    private LocalDate date;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     public static DatePickerDialogFragment newInstance(LocalDateTime date, DatePickerDialog.OnDateSetListener onDateSetListener) {
+        return newInstance(date.toLocalDate(), onDateSetListener);
+    }
+
+    public static DatePickerDialogFragment newInstance(LocalDate date, DatePickerDialog.OnDateSetListener onDateSetListener) {
         Bundle args = new Bundle();
         DatePickerDialogFragment fragment = new DatePickerDialogFragment();
         fragment.setArguments(args);
