@@ -258,9 +258,7 @@ public class Spending {
                 '}';
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 471661326)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.util.AmountFormatter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdapter.StatSpendingViewHolder> {
@@ -32,7 +33,9 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
 
     @Override
     public void onBindViewHolder(StatSpendingViewHolder holder, int position) {
-        StatsCategoryInfo categoryInfo = mData.statsCategoryInfos.get(position);
+        //TODO optimise binding? Minor lags on scrolling
+        StatsCategoryInfoWithLayout categoryInfoWithLayout = mData.statsCategoryInfosWithLayouts.get(position);
+        StatsCategoryInfo categoryInfo = categoryInfoWithLayout.statsCategoryInfo;
 
         holder.mTextViewCategoryName.setText(categoryInfo.getCategory().getName());
         holder.mTextViewTotal.setText(AmountFormatter.format(categoryInfo.getTotalAmount()));
@@ -44,23 +47,13 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
         holder.mTextViewPerMonth.setText(AmountFormatter.format(categoryInfo.getPerMonth()));
         holder.mTextViewPerYear.setText(AmountFormatter.format(categoryInfo.getPerYear()));
 
-        double amountShareViewWeight = categoryInfo.getTotalAmount() / mData.maxAmount;
-        LinearLayout.LayoutParams shareLayoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                (1f - (float) amountShareViewWeight));
-        holder.mAmountShareView.setLayoutParams(shareLayoutParams);
-
-        LinearLayout.LayoutParams oppositeLayoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                (float) amountShareViewWeight);
-        holder.mAmountShareOppositeView.setLayoutParams(oppositeLayoutParams);
+        holder.mAmountShareView.setLayoutParams(categoryInfoWithLayout.shareLayoutParams);
+        holder.mAmountShareOppositeView.setLayoutParams(categoryInfoWithLayout.oppositeShareLayoutParams);
     }
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.statsCategoryInfos.size() : 0;
+        return mData != null ? mData.statsCategoryInfosWithLayouts.size() : 0;
     }
 
     public void setData(StatsCategoryAdapterData data) {
@@ -114,16 +107,40 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
     }
 
     public static class StatsCategoryAdapterData {
-        List<StatsCategoryInfo> statsCategoryInfos;
+        List<StatsCategoryInfoWithLayout> statsCategoryInfosWithLayouts;
         double maxAmount;
 
         public StatsCategoryAdapterData(List<StatsCategoryInfo> statsCategoryInfos) {
-            this.statsCategoryInfos = statsCategoryInfos;
             for (StatsCategoryInfo statsCategoryInfo : statsCategoryInfos) {
                 if (statsCategoryInfo.getTotalAmount() > maxAmount) {
                     maxAmount = statsCategoryInfo.getTotalAmount();
                 }
             }
+            statsCategoryInfosWithLayouts = new ArrayList<>(statsCategoryInfos.size());
+            for (StatsCategoryInfo statsCategoryInfo : statsCategoryInfos) {
+                statsCategoryInfosWithLayouts.add(new StatsCategoryInfoWithLayout(statsCategoryInfo, maxAmount));
+            }
+        }
+    }
+
+    //special class holding layout params - to create them before display
+    private static class StatsCategoryInfoWithLayout {
+        StatsCategoryInfo statsCategoryInfo;
+        LinearLayout.LayoutParams shareLayoutParams;
+        LinearLayout.LayoutParams oppositeShareLayoutParams;
+
+        public StatsCategoryInfoWithLayout(StatsCategoryInfo statsCategoryInfo, double maxAmount) {
+            double amountShareViewWeight = statsCategoryInfo.getTotalAmount() / maxAmount;
+            this.statsCategoryInfo = statsCategoryInfo;
+            shareLayoutParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    (1f - (float) amountShareViewWeight));
+
+            oppositeShareLayoutParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    (float) amountShareViewWeight);
         }
     }
 }
