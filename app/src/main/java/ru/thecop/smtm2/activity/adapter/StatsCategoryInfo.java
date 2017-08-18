@@ -4,59 +4,39 @@ import ru.thecop.smtm2.db.CategoryStatsRequestResult;
 import ru.thecop.smtm2.model.Category;
 
 public class StatsCategoryInfo {
-    private Category category;
-    private double totalAmount;
-    private int periodDays;
-    private int entriesCount;
+    private final CategoryStatsRequestResult categoryStatsRequestResult;
+    private final int periodDays;
 
     public StatsCategoryInfo(CategoryStatsRequestResult categoryStatsRequestResult, int periodDays) {
-        this.category = categoryStatsRequestResult.getCategory();
-        this.totalAmount = categoryStatsRequestResult.getTotalAmount();
-        this.entriesCount = categoryStatsRequestResult.getEntriesCount();
+        this.categoryStatsRequestResult = categoryStatsRequestResult;
         this.periodDays = periodDays;
     }
 
     public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+        return categoryStatsRequestResult.getCategory();
     }
 
     public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+        return categoryStatsRequestResult.getTotalAmount();
     }
 
     public int getPeriodDays() {
         return periodDays;
     }
 
-    public void setPeriodDays(int periodDays) {
-        this.periodDays = periodDays;
-    }
-
     public int getEntriesCount() {
-        return entriesCount;
-    }
-
-    public void setEntriesCount(int entriesCount) {
-        this.entriesCount = entriesCount;
+        return categoryStatsRequestResult.getEntriesCount();
     }
 
     public double getEntriesPerDay() {
-        if (entriesCount == 0 || periodDays == 0) {
+        if (categoryStatsRequestResult.getEntriesCount() == 0 || periodDays == 0) {
             return 0;
         }
-        return ((double) entriesCount) / periodDays;
+        return ((double) categoryStatsRequestResult.getEntriesCount()) / periodDays;
     }
 
     public double getPerDay() {
-        return totalAmount / periodDays;
+        return categoryStatsRequestResult.getTotalAmount() / periodDays;
     }
 
     public double getPerWeek() {

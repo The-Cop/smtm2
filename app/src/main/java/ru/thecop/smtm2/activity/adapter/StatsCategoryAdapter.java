@@ -125,9 +125,9 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
 
     //special class holding layout params - to create them before display
     private static class StatsCategoryInfoWithLayout {
-        StatsCategoryInfo statsCategoryInfo;
-        LinearLayout.LayoutParams shareLayoutParams;
-        LinearLayout.LayoutParams oppositeShareLayoutParams;
+        final StatsCategoryInfo statsCategoryInfo;
+        final LinearLayout.LayoutParams shareLayoutParams;
+        final LinearLayout.LayoutParams oppositeShareLayoutParams;
 
         public StatsCategoryInfoWithLayout(StatsCategoryInfo statsCategoryInfo, double maxAmount) {
             double amountShareViewWeight = statsCategoryInfo.getTotalAmount() / maxAmount;
