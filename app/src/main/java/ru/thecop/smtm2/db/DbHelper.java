@@ -1,5 +1,6 @@
 package ru.thecop.smtm2.db;
 
+import android.database.Cursor;
 import android.util.Log;
 import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.SmtmApplication;
@@ -9,6 +10,7 @@ import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.model.SpendingDao;
 import ru.thecop.smtm2.util.DateTimeConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,5 +94,36 @@ public final class DbHelper {
                 .where(CategoryDao.Properties.LowerCaseName.like(like))
                 .orderAsc(CategoryDao.Properties.LowerCaseName)
                 .list();
+    }
+
+    public static List<CategoryStatsRequestResult> loadCategoriesStats(SmtmApplication application,
+                                                                       long spendingsTimestampFrom,
+                                                                       long spendingsTimestampTo) {
+        String sql = "select ct." + CategoryDao.Properties.Id.columnName + " as catId"
+                + ", sum(sp." + SpendingDao.Properties.Amount.columnName + ") as total"
+                + ", count(sp." + SpendingDao.Properties.Id.columnName + ") as entries"
+                + " from " + SpendingDao.TABLENAME + " sp, " + CategoryDao.TABLENAME + " ct "
+                + " where sp." + SpendingDao.Properties.CategoryId.columnName + "=ct." + CategoryDao.Properties.Id.columnName
+                + " and sp." + SpendingDao.Properties.Timestamp.columnName + ">=" + spendingsTimestampFrom
+                + " and sp." + SpendingDao.Properties.Timestamp.columnName + "<=" + spendingsTimestampTo
+                + " group by ct." + CategoryDao.Properties.Id.columnName
+                + " order by total desc";
+        Log.d(TAG, "loadCategoriesStats sql = " + sql);
+        Cursor cursor = application.getDaoSession().getDatabase().rawQuery(sql, null);
+        List<CategoryStatsRequestResult> result = new ArrayList<>(cursor.getCount());
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    long categoryId = cursor.getLong(cursor.getColumnIndex("catId"));
+                    double totalAmount = cursor.getDouble(cursor.getColumnIndex("total"));
+                    int entriesCount = cursor.getInt(cursor.getColumnIndex("entries"));
+                    Category category = findCategoryById(categoryId, application);
+                    result.add(new CategoryStatsRequestResult(category, totalAmount, entriesCount));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+        }
+        return result;
     }
 }

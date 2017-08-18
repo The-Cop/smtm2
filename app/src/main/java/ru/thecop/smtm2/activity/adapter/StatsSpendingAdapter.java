@@ -74,7 +74,7 @@ public class StatsSpendingAdapter extends RecyclerView.Adapter<StatsSpendingAdap
 //            int position = getAdapterPosition();
 //            Category category = mData.get(position);
 //            mClickHandler.onCategoryClick(category.getId());
-            Toast.makeText(mContext, "Woah..",Toast.LENGTH_SHORT);
+            Toast.makeText(mContext, "Woah..", Toast.LENGTH_SHORT);
         }
     }
 

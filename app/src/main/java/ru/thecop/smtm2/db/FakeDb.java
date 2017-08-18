@@ -83,17 +83,17 @@ public class FakeDb {
 
 
     private static void fillSpendings() {
-        createSpendingInTable(1L, new LocalDateTime(2017, 7, 12, 12, 21), 3.50, 1L,true);
-        createSpendingInTable(2L, new LocalDateTime(2017, 7, 12, 13, 33), 666, 1L,false);
-        createSpendingInTable(3L, new LocalDateTime(2017, 7, 13, 23, 59), 777.13, 1L,false);
+        createSpendingInTable(1L, new LocalDateTime(2017, 7, 12, 12, 21), 3.50, 1L, true);
+        createSpendingInTable(2L, new LocalDateTime(2017, 7, 12, 13, 33), 666, 1L, false);
+        createSpendingInTable(3L, new LocalDateTime(2017, 7, 13, 23, 59), 777.13, 1L, false);
 
-        createSpendingInTable(4L, new LocalDateTime(2017, 7, 12, 0, 1), 63.55, 2L,false);
-        createSpendingInTable(5L, new LocalDateTime(2017, 7, 12, 0, 3), 33.11, 2L,false);
-        createSpendingInTable(6L, new LocalDateTime(2017, 7, 13, 0, 1), 36.6, 2L,true);
+        createSpendingInTable(4L, new LocalDateTime(2017, 7, 12, 0, 1), 63.55, 2L, false);
+        createSpendingInTable(5L, new LocalDateTime(2017, 7, 12, 0, 3), 33.11, 2L, false);
+        createSpendingInTable(6L, new LocalDateTime(2017, 7, 13, 0, 1), 36.6, 2L, true);
 
-        createSpendingInTable(7L, new LocalDateTime(2017, 7, 12, 22, 17), 634, 3L,false);
-        createSpendingInTable(8L, new LocalDateTime(2017, 7, 12, 14, 56), 335.1, 3L,false);
-        createSpendingInTable(9L, new LocalDateTime(2017, 7, 13, 11, 3), 22.33, 3L,true);
+        createSpendingInTable(7L, new LocalDateTime(2017, 7, 12, 22, 17), 634, 3L, false);
+        createSpendingInTable(8L, new LocalDateTime(2017, 7, 12, 14, 56), 335.1, 3L, false);
+        createSpendingInTable(9L, new LocalDateTime(2017, 7, 13, 11, 3), 22.33, 3L, true);
     }
 
     private static void fillCategories() {

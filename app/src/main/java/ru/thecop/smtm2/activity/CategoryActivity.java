@@ -27,6 +27,7 @@ public class CategoryActivity extends AppCompatActivity implements
 
     public static final String TAG = "CategoryActivity";
 
+    //If editing an existing spending - put it's id in extra
     public static final String EXTRA_SPENDING_ID = "SpendingId";
     //TODO if spending is not confirmed, open an keyword adding activity for selected category
     public static final String EXTRA_SPENDING_NON_CONFIRMED = "SpendingNonConfirmed";

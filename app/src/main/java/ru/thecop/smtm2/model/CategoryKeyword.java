@@ -1,12 +1,12 @@
 package ru.thecop.smtm2.model;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 @Entity
 public class CategoryKeyword {
@@ -23,11 +23,15 @@ public class CategoryKeyword {
 
     private long categoryId;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 158412099)
     private transient CategoryKeywordDao myDao;
 
@@ -69,7 +73,9 @@ public class CategoryKeyword {
     @Generated(hash = 1372501278)
     private transient Long category__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 234631651)
     public Category getCategory() {
         long __key = this.categoryId;
@@ -88,7 +94,9 @@ public class CategoryKeyword {
         return category;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1927364589)
     public void setCategory(@NotNull Category category) {
         if (category == null) {
@@ -138,7 +146,9 @@ public class CategoryKeyword {
         myDao.update(this);
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1759791799)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

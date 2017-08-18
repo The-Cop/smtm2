@@ -21,7 +21,7 @@ import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
 import ru.thecop.smtm2.util.DateTimeConverter;
 
-public class SpendingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class SpendingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 
     public static final String EXTRA_SPENDING_ID = "SpendingId";
@@ -90,7 +90,7 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
         mDateTextView.setText(dateString);
     }
 
-    public void updateAmountAndSelectAll(double amount){
+    public void updateAmountAndSelectAll(double amount) {
         mAmountEditText.setText(Double.toString(amount));
         mAmountEditText.selectAll();
     }
@@ -101,7 +101,7 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
 
     public void save(View view) {
         //todo write ui-test for saving
-        if(!checkAmount()){
+        if (!checkAmount()) {
             return;
         }
         Spending s = mEditedSpending != null ? mEditedSpending : new Spending();
@@ -114,30 +114,28 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
 
         if (isEditingExisting()) {
             DbHelper.update(s, (SmtmApplication) getApplication());
-        }
-        else {
+        } else {
             DbHelper.create(s, (SmtmApplication) getApplication());
         }
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         onBackPressed();
     }
 
-    private boolean checkAmount(){
+    private boolean checkAmount() {
         String amountString = mAmountEditText.getText().toString();
         amountString = amountString.trim();
-        if(amountString.isEmpty()){
+        if (amountString.isEmpty()) {
             Toast.makeText(this, getString(R.string.no_amount), Toast.LENGTH_SHORT).show();
             return false;
         }
-        amountString = amountString.replace(',','.');
-        try{
+        amountString = amountString.replace(',', '.');
+        try {
             double amount = Double.parseDouble(amountString);
-            if(amount<=0){
+            if (amount <= 0) {
                 Toast.makeText(this, getString(R.string.negative_or_zero_amount), Toast.LENGTH_SHORT).show();
                 return false;
             }
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             Toast.makeText(this, getString(R.string.wrong_amount), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -146,11 +144,11 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
 
     public void showDatePickerDialog(View view) {
         DatePickerDialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mDateTime, this);
-        datePickerDialogFragment.show(getSupportFragmentManager(),DATE_PIRCKER_DIALOG_TAG);
+        datePickerDialogFragment.show(getSupportFragmentManager(), DATE_PIRCKER_DIALOG_TAG);
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        updateDate(new LocalDate(year,month+1,dayOfMonth).toLocalDateTime(LocalTime.MIDNIGHT));
+        updateDate(new LocalDate(year, month + 1, dayOfMonth).toLocalDateTime(LocalTime.MIDNIGHT));
     }
 }

@@ -30,6 +30,10 @@
         <item>Food</item>
         <item>Cinema</item>
         <item>Electronics</item>
+        <item>Household</item>
+        <item>Internet</item>
+        <item>Games</item>
+        <item>Clothes</item>
         <item>Тестовая КАТЕГОРИЯ</item>
     </string-array>
 

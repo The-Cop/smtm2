@@ -25,7 +25,7 @@ public class Category {
 
     @Generated(hash = 1584941244)
     public Category(Long id, long updatedTimestamp, @NotNull String name,
-            @NotNull String lowerCaseName) {
+                    @NotNull String lowerCaseName) {
         this.id = id;
         this.updatedTimestamp = updatedTimestamp;
         this.name = name;

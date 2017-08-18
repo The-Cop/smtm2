@@ -22,7 +22,7 @@ import java.util.List;
 //todo refactor sample android:text to tools:text in layouts
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<List<Spending>>,
-        NonConfirmedAdapter.NonConfirmedAdapterButtonsClickHandler{
+        NonConfirmedAdapter.NonConfirmedAdapterButtonsClickHandler {
 
     private static final int NON_CONFIRMED_SPENDINGS_LOADER_ID = 1;
     public static final String TAG = "MainActivity";
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        //TODO set recyclerview layout constant height thing where appropriate
+
         //TODO swipe to delete
         //Bind adapter to recyclerView
         mAdapter = new NonConfirmedAdapter(this, this);
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public List<Spending> loadInBackground() {
-                Log.d(TAG,"loadInBackground mainactivity");
+                Log.d(TAG, "loadInBackground mainactivity");
                 return DbHelper.findAllNonConfirmedSpendings((SmtmApplication) getApplication());//FakeDb.findSpendingsNonConfirmed();
             }
         };
@@ -97,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements
 
     public void showStatsActivitySpendings(View view) {
         Intent statsActiviryIntent = new Intent(MainActivity.this, StatsActivity.class);
+        startActivity(statsActiviryIntent);
+    }
+
+    public void showStatsActivityCategories(View view) {
+        Intent statsActiviryIntent = new Intent(MainActivity.this, StatsActivity.class);
+        statsActiviryIntent.putExtra(StatsActivity.EXTRA_DISPLAY_MODE_CATEGORIES, true);
         startActivity(statsActiviryIntent);
     }
 

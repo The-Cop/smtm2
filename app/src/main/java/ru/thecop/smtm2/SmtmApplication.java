@@ -3,6 +3,7 @@ package ru.thecop.smtm2;
 import android.app.Application;
 import android.util.Log;
 import org.greenrobot.greendao.database.Database;
+import ru.thecop.smtm2.db.DbDevUtils;
 import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.DaoMaster;
@@ -43,5 +44,8 @@ public class SmtmApplication extends Application {
             category.setName(initialCategory);
             DbHelper.create(category, this);
         }
+
+        //TODO delete dev database filling
+        DbDevUtils.fillDataBase(this);
     }
 }
