@@ -4,7 +4,7 @@ import android.util.Log;
 import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,7 +109,7 @@ public class FakeDb {
         }
         Spending s = new Spending();
         s.setId(id);
-        s.setTimestamp(DateTimeConverter.convert(localDateTime));
+        s.setTimestamp(DateTimeUtils.convert(localDateTime));
         s.setAmount(amount);
 //        s.setCategoryId(categoryId);
         s.setUid(UUID.randomUUID().toString());

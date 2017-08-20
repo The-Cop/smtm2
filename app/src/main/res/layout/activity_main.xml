@@ -81,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
+        <!--todo "no unconfirmed spendings" textview if no data-->
     </LinearLayout>
 
     <!--todo three bookmarked categories on fab click-->

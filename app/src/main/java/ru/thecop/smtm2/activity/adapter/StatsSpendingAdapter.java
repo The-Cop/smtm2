@@ -11,7 +11,7 @@ import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.AmountFormatter;
 import ru.thecop.smtm2.util.Constants;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class StatsSpendingAdapter extends RecyclerView.Adapter<StatsSpendingAdap
         Spending spending = mData.get(position);
 
         holder.categoryName.setText(spending.getCategory().getName());
-        holder.date.setText(DateTimeConverter.convert(spending.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
+        holder.date.setText(DateTimeUtils.convert(spending.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
         holder.amount.setText(AmountFormatter.format(spending.getAmount()));
         holder.comment.setText(spending.getComment());
     }

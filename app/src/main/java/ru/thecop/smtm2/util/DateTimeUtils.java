@@ -2,11 +2,12 @@ package ru.thecop.smtm2.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
-public class DateTimeConverter {
+public class DateTimeUtils {
 
     public static long convert(LocalDateTime localDateTime) {
         DateTime utc = localDateTime.toDateTime(DateTimeZone.UTC);
@@ -24,5 +25,16 @@ public class DateTimeConverter {
 
     public static LocalDateTime atEndOfDay(LocalDate localDate) {
         return localDate.toLocalDateTime(LocalTime.MIDNIGHT.minusMillis(1));
+    }
+
+    public static int getPeriodBetweenDates(LocalDate dateFrom, LocalDate dateTo){
+        if (dateFrom == null || dateTo == null) {
+            return 0;
+        }
+        return Days.daysBetween(dateFrom, dateTo).getDays() + 1;
+    }
+
+    public static int getPeriodBetweenDates(long timestampFrom, long timestampTo){
+        return getPeriodBetweenDates(convert(timestampFrom).toLocalDate(),convert(timestampTo).toLocalDate());
     }
 }

@@ -8,7 +8,7 @@ import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.CategoryDao;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.model.SpendingDao;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public final class DbHelper {
     //Spendings-----------------------------------------------------------------
 
     public static Spending create(Spending spending, SmtmApplication application) {
-        spending.setUpdatedTimestamp(DateTimeConverter.convert(LocalDateTime.now()));
+        spending.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         spending.setUid(UUID.randomUUID().toString());
         spending.setDeleted(false);
 
@@ -35,7 +35,7 @@ public final class DbHelper {
     }
 
     public static void update(Spending spending, SmtmApplication application) {
-        spending.setUpdatedTimestamp(DateTimeConverter.convert(LocalDateTime.now()));
+        spending.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
         spendingDao.update(spending);
         Log.d(TAG, "Updated spending " + spending.toString());
@@ -57,15 +57,48 @@ public final class DbHelper {
                 .list();
     }
 
+    public static List<Spending> findConfirmedSpendings(SmtmApplication application, long timestampFrom, long timestampTo) {
+        SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
+        return spendingDao.queryBuilder()
+                .where(SpendingDao.Properties.Confirmed.eq(true),
+                        SpendingDao.Properties.Timestamp.ge(timestampFrom),
+                        SpendingDao.Properties.Timestamp.le(timestampTo))
+                .orderDesc(SpendingDao.Properties.Timestamp)
+                .list();
+    }
+
     public static Spending findSpendingById(long id, SmtmApplication application) {
         SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
         return spendingDao.load(id);
     }
 
+    public static Spending findLatestSpending(SmtmApplication application) {
+        SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
+        List<Spending> list = spendingDao.queryBuilder()
+                .orderDesc(SpendingDao.Properties.Timestamp)
+                .limit(1)
+                .list();
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
+    }
+    public static Spending findEarliestSpending(SmtmApplication application) {
+        SpendingDao spendingDao = application.getDaoSession().getSpendingDao();
+        List<Spending> list = spendingDao.queryBuilder()
+                .orderAsc(SpendingDao.Properties.Timestamp)
+                .limit(1)
+                .list();
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
+    }
+
     //Categories-----------------------------------------------------------------
 
     public static Category create(Category category, SmtmApplication application) {
-        category.setUpdatedTimestamp(DateTimeConverter.convert(LocalDateTime.now()));
+        category.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         category.setLowerCaseName(category.getName().toLowerCase());
 
         CategoryDao categoryDao = application.getDaoSession().getCategoryDao();

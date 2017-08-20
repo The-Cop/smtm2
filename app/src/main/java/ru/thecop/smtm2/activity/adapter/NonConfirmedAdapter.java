@@ -11,7 +11,7 @@ import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
         Category c = s.getCategory();
         //todo add sms text textView
 
-        holder.date.setText(DateTimeConverter.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
+        holder.date.setText(DateTimeUtils.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
         holder.amount.setText(Double.toString(s.getAmount()));
         holder.smsFrom.setText(s.getSmsFrom());
         holder.category.setText(c.getName());

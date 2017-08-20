@@ -24,6 +24,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="loadToday"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:background="@drawable/round_button"
@@ -39,6 +40,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="loadYesterday"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:background="@drawable/round_button"
@@ -54,6 +56,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="loadWeek"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:background="@drawable/round_button"
@@ -69,6 +72,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="load30Days"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:layout_marginBottom="4dp"
@@ -84,6 +88,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="load365Days"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:background="@drawable/round_button"
@@ -99,6 +104,7 @@
                 android:layout_height="0dp"/>
 
         <Button
+                android:onClick="loadAll"
                 android:layout_width="@dimen/small_round_button_size"
                 android:layout_height="@dimen/small_round_button_size"
                 android:background="@drawable/round_button"

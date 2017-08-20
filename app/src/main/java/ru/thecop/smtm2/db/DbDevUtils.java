@@ -4,7 +4,7 @@ import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -29,7 +29,7 @@ public class DbDevUtils {
 
     private static long randomTimestamp() {
         LocalDateTime dateTime = new LocalDateTime(2017, 1 + r.nextInt(12), 1 + r.nextInt(28), r.nextInt(24), r.nextInt(60));
-        return DateTimeConverter.convert(dateTime);
+        return DateTimeUtils.convert(dateTime);
     }
 
 }

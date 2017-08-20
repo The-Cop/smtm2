@@ -19,7 +19,7 @@ import ru.thecop.smtm2.dialog.DatePickerDialogFragment;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.Constants;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 public class SpendingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -71,7 +71,7 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
 
     private void loadExistingSpendingValues(long spendingId) {
         mEditedSpending = DbHelper.findSpendingById(spendingId, (SmtmApplication) getApplication());//FakeDb.findSpendingById(spendingId);
-        updateDate(DateTimeConverter.convert(mEditedSpending.getTimestamp()));
+        updateDate(DateTimeUtils.convert(mEditedSpending.getTimestamp()));
         updateAmountAndSelectAll(mEditedSpending.getAmount());
         mCommentEditText.setText(mEditedSpending.getComment());
     }
@@ -109,7 +109,7 @@ public class SpendingActivity extends AppCompatActivity implements DatePickerDia
         s.setConfirmed(true);
         s.setAmount(Double.parseDouble(mAmountEditText.getText().toString()));
         s.setCategory(mCategory);
-        s.setTimestamp(DateTimeConverter.convert(mDateTime));
+        s.setTimestamp(DateTimeUtils.convert(mDateTime));
         s.setComment(mCommentEditText.getText().toString());
 
         if (isEditingExisting()) {

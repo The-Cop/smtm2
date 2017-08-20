@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.SmtmApplication;
@@ -26,7 +25,7 @@ import ru.thecop.smtm2.dialog.DatePickerDialogFragment;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.AmountFormatter;
 import ru.thecop.smtm2.util.Constants;
-import ru.thecop.smtm2.util.DateTimeConverter;
+import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,7 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     public static final String TAG = "StatsActivity";
     //todo use intent extra to define view mode: spendings/categories
     public static final String EXTRA_DISPLAY_MODE_CATEGORIES = "DisplayModeCategories";
+    public static final String LOADER_ARGUMENT_LOAD_ALL = "LoadAllSpendings";
     //todo spinner progressbars everywhere where loaders present
     private static final int STATS_LOADER_ID = 2;//todo - later - ensure uniqueness of loader ids
     private static final String FROM_DATE_PIRCKER_DIALOG_TAG = "FromDatePickerDialogTag";
@@ -65,11 +65,15 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     private DatePickerDialog.OnDateSetListener onFromDateSetListener;
     private DatePickerDialog.OnDateSetListener onToDateSetListener;
 
+    private SmtmApplication smtmApplication;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
+        smtmApplication = (SmtmApplication) getApplication();
 
         //set proper display mode flag
         if (getIntent().hasExtra(EXTRA_DISPLAY_MODE_CATEGORIES)) {
@@ -151,6 +155,10 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     private void updateFromDate(LocalDate newFromDate) {
+        if (newFromDate == null) {
+            this.mFromDate = newFromDate;
+            return;
+        }
         if (newFromDate != null && mToDate != null && newFromDate.isAfter(mToDate)) {
             Toast.makeText(StatsActivity.this, getString(R.string.from_date_after_to_date), Toast.LENGTH_SHORT).show();
             return;
@@ -161,6 +169,10 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     private void updateToDate(LocalDate newToDate) {
+        if (newToDate == null) {
+            this.mToDate = newToDate;
+            return;
+        }
         if (newToDate != null && mFromDate != null && newToDate.isBefore(mFromDate)) {
             Toast.makeText(StatsActivity.this, getString(R.string.from_date_after_to_date), Toast.LENGTH_SHORT).show();
             return;
@@ -170,15 +182,29 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         mTextViewDateTo.setText(dateString);
     }
 
-    private int getPeriodBetweenDates() {
-        if (mFromDate == null || mToDate == null) {
-            return 0;
+    private void updateBothDates(LocalDate newFromDate, LocalDate newToDate) {
+        if (newFromDate == null && newToDate == null) {
+            mToDate = newToDate;
+            mFromDate = newFromDate;
+            return;
         }
-        return Days.daysBetween(mFromDate, mToDate).getDays() + 1;
+
+        if (newFromDate == null || newToDate == null) {
+            throw new IllegalArgumentException("Both dates must be null or non-null");
+        }
+        if (newToDate.isBefore(newFromDate)) {
+            throw new IllegalArgumentException("to date can not be before from date");
+        }
+        mToDate = newToDate;
+        mFromDate = newFromDate;
+
+        mTextViewDateTo.setText(newToDate.toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
+        mTextViewDateFrom.setText(newFromDate.toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
+
     }
 
     @Override
-    public Loader<StatsLoaderResult> onCreateLoader(int id, Bundle args) {
+    public Loader<StatsLoaderResult> onCreateLoader(int id, final Bundle args) {
         return new AsyncTaskLoader<StatsLoaderResult>(this) {
 
             @Override
@@ -188,29 +214,59 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
 
             @Override
             public StatsLoaderResult loadInBackground() {
-                //todo load spendings by specified dates
                 if (mDisplayModeCategories) {
-                    long timestampFrom = DateTimeConverter.convert(DateTimeConverter.atStartOfDay(mFromDate));
-                    long timestampTo = DateTimeConverter.convert(DateTimeConverter.atEndOfDay(mToDate));
+                    long timestampFrom;
+                    long timestampTo;
+                    //categories display mode
+                    if (args != null && args.getBoolean(LOADER_ARGUMENT_LOAD_ALL, false)) {
+                        //load all
+                        Spending earliest = DbHelper.findEarliestSpending(smtmApplication);
+                        Spending latest = DbHelper.findLatestSpending(smtmApplication);
+                        timestampFrom = earliest != null ? earliest.getTimestamp() : DateTimeUtils.convert(DateTimeUtils.atStartOfDay(LocalDate.now()));
+                        timestampTo = latest != null ? latest.getTimestamp() : DateTimeUtils.convert(DateTimeUtils.atEndOfDay(LocalDate.now()));
+
+                    } else {
+                        timestampFrom = DateTimeUtils.convert(DateTimeUtils.atStartOfDay(mFromDate));
+                        timestampTo = DateTimeUtils.convert(DateTimeUtils.atEndOfDay(mToDate));
+                    }
                     //load stats
-                    List<CategoryStatsRequestResult> categories = DbHelper.loadCategoriesStats(
-                            (SmtmApplication) getApplication(), timestampFrom, timestampTo);
+                    List<CategoryStatsRequestResult> categories = DbHelper.loadCategoriesStats(smtmApplication, timestampFrom, timestampTo);
                     StatsLoaderResult statsLoaderResult = new StatsLoaderResult();
+                    statsLoaderResult.dateFrom = DateTimeUtils.convert(timestampFrom).toLocalDate();
+                    statsLoaderResult.dateTo = DateTimeUtils.convert(timestampTo).toLocalDate();
 
                     //convert to info dtos
-                    int periodBetweenDates = getPeriodBetweenDates();
+                    int periodBetweenDates = DateTimeUtils.getPeriodBetweenDates(timestampFrom, timestampTo);
                     List<StatsCategoryInfo> statsCategoryInfos = new ArrayList<>(categories.size());
                     for (CategoryStatsRequestResult category : categories) {
                         statsCategoryInfos.add(new StatsCategoryInfo(category, periodBetweenDates));
                     }
                     statsLoaderResult.categoryAdapterData = new StatsCategoryAdapter.StatsCategoryAdapterData(statsCategoryInfos);
-                    statsLoaderResult.totals = new Totals(getPeriodBetweenDates(), categories);
+                    statsLoaderResult.totals = new Totals(periodBetweenDates, categories);
                     return statsLoaderResult;
                 } else {
-                    List<Spending> spendings = DbHelper.findAllConfirmedSpendings((SmtmApplication) getApplication());
+                    //spendings display mode
+                    List<Spending> spendings;
                     StatsLoaderResult statsLoaderResult = new StatsLoaderResult();
+                    if (args != null && args.getBoolean(LOADER_ARGUMENT_LOAD_ALL, false)) {
+                        //load all sendings
+                        spendings = DbHelper.findAllConfirmedSpendings(smtmApplication);
+
+                        if (!spendings.isEmpty()) {
+                            statsLoaderResult.dateFrom = DateTimeUtils.convert(spendings.get(spendings.size() - 1).getTimestamp()).toLocalDate();
+                            statsLoaderResult.dateTo = DateTimeUtils.convert(spendings.get(0).getTimestamp()).toLocalDate();
+                        }
+
+                    } else {
+                        //load spendings by specified dates
+                        spendings = DbHelper.findConfirmedSpendings(smtmApplication,
+                                DateTimeUtils.convert(DateTimeUtils.atStartOfDay(mFromDate)),
+                                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(mToDate)));
+                        statsLoaderResult.dateFrom = mFromDate;
+                        statsLoaderResult.dateTo = mToDate;
+                    }
                     statsLoaderResult.spendings = spendings;
-                    statsLoaderResult.totals = new Totals(spendings, getPeriodBetweenDates());
+                    statsLoaderResult.totals = new Totals(spendings, DateTimeUtils.getPeriodBetweenDates(statsLoaderResult.dateFrom, statsLoaderResult.dateTo));
                     return statsLoaderResult;
                 }
             }
@@ -222,6 +278,11 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         if (data == null) {
             Log.e(TAG, "Failed to retrieve stats");
             return;
+        }
+        //if loading all spendings
+        if (mFromDate == null && mToDate == null) {
+            updateFromDate(data.dateFrom);
+            updateToDate(data.dateTo);
         }
 
         if (mDisplayModeCategories) {
@@ -247,10 +308,45 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         datePickerDialogFragment.show(getSupportFragmentManager(), TO_DATE_PIRCKER_DIALOG_TAG);
     }
 
+    public void loadToday(View view) {
+        updateBothDates(LocalDate.now(), LocalDate.now());
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, null, StatsActivity.this);
+    }
+
+    public void loadYesterday(View view) {
+        updateBothDates(LocalDate.now().minusDays(1), LocalDate.now().minusDays(1));
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, null, StatsActivity.this);
+    }
+
+    public void loadWeek(View view) {
+        updateBothDates(LocalDate.now().minusDays(6), LocalDate.now());
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, null, StatsActivity.this);
+    }
+
+    public void load30Days(View view) {
+        updateBothDates(LocalDate.now().minusDays(29), LocalDate.now());
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, null, StatsActivity.this);
+    }
+
+    public void load365Days(View view) {
+        updateFromDate(LocalDate.now().minusDays(364));
+        updateToDate(LocalDate.now());
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, null, StatsActivity.this);
+    }
+
+    public void loadAll(View view) {
+        updateBothDates(null, null);
+        Bundle args = new Bundle();
+        args.putBoolean(LOADER_ARGUMENT_LOAD_ALL, true);
+        getSupportLoaderManager().restartLoader(STATS_LOADER_ID, args, StatsActivity.this);
+    }
+
     static class StatsLoaderResult {
         private List<Spending> spendings;
         private StatsCategoryAdapter.StatsCategoryAdapterData categoryAdapterData;
         private Totals totals;
+        private LocalDate dateFrom = LocalDate.now();
+        private LocalDate dateTo = LocalDate.now();
     }
 
 
@@ -259,7 +355,7 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         private int periodDays;
         private double sum;
 
-        public Totals() {
+        Totals() {
         }
 
         public Totals(List<Spending> spendings, int periodDays) {
@@ -271,7 +367,7 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
             }
         }
 
-        public Totals(int periodBetweenDates, List<CategoryStatsRequestResult> categories) {
+        Totals(int periodBetweenDates, List<CategoryStatsRequestResult> categories) {
             this.periodDays = periodBetweenDates;
             for (CategoryStatsRequestResult category : categories) {
                 this.entriesCount += category.getEntriesCount();
@@ -279,38 +375,38 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
             }
         }
 
-        public int getEntriesCount() {
+        int getEntriesCount() {
             return entriesCount;
         }
 
-        public int getPeriodDays() {
+        int getPeriodDays() {
             return periodDays;
         }
 
-        public double getSum() {
+        double getSum() {
             return sum;
         }
 
-        public double getEntriesPerDay() {
+        double getEntriesPerDay() {
             if (entriesCount == 0 || periodDays == 0) {
                 return 0;
             }
             return ((double) entriesCount) / periodDays;
         }
 
-        public double getPerDay() {
+        double getPerDay() {
             return sum / periodDays;
         }
 
-        public double getPerWeek() {
+        double getPerWeek() {
             return getPerDay() * 7;
         }
 
-        public double getPerMonth() {
+        double getPerMonth() {
             return getPerDay() * 30;
         }
 
-        public double getPerYear() {
+        double getPerYear() {
             return getPerDay() * 365;
         }
     }
