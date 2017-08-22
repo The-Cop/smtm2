@@ -23,15 +23,36 @@ public final class DbHelper {
 
     //Spendings-----------------------------------------------------------------
 
-    public static Spending create(Spending spending, SessionHolder holder) {
+    private static void prepareNewSpending(Spending spending) {
         spending.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         spending.setUid(UUID.randomUUID().toString());
         spending.setDeleted(false);
+    }
+
+    public static Spending create(Spending spending, SessionHolder holder) {
+        prepareNewSpending(spending);
 
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         spendingDao.insert(spending);
         Log.d(TAG, "Inserted new spending " + spending.toString());
         return spending;
+    }
+
+    public static void createInSingleTransaction(List<Spending> spendings, SessionHolder holder) {
+        holder.getSession().getDatabase().beginTransaction();
+        SpendingDao spendingDao = holder.getSession().getSpendingDao();
+        try {
+            for (Spending spending : spendings) {
+                prepareNewSpending(spending);
+                spendingDao.insert(spending);
+                Log.d(TAG, "Inserted new spending " + spending.toString());
+            }
+            holder.getSession().getDatabase().setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to insert spendings in transaction: " + e.getMessage());
+        } finally {
+            holder.getSession().getDatabase().endTransaction();
+        }
     }
 
     public static void update(Spending spending, SessionHolder holder) {
@@ -142,7 +163,6 @@ public final class DbHelper {
                 + " and sp." + SpendingDao.Properties.Timestamp.columnName + "<=" + spendingsTimestampTo
                 + " group by ct." + CategoryDao.Properties.Id.columnName
                 + " order by total desc";
-        Log.d(TAG, "loadCategoriesStats sql = " + sql);
         Cursor cursor = holder.getSession().getDatabase().rawQuery(sql, null);
         List<CategoryStat> result = new ArrayList<>(cursor.getCount());
         try {
