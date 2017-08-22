@@ -27,14 +27,15 @@ public class DateTimeUtils {
         return localDate.toLocalDateTime(LocalTime.MIDNIGHT.minusMillis(1));
     }
 
-    public static int getPeriodBetweenDates(LocalDate dateFrom, LocalDate dateTo){
+    //TODO test
+    public static int getPeriodBetweenDates(LocalDate dateFrom, LocalDate dateTo) {
         if (dateFrom == null || dateTo == null) {
             return 0;
         }
         return Days.daysBetween(dateFrom, dateTo).getDays() + 1;
     }
 
-    public static int getPeriodBetweenDates(long timestampFrom, long timestampTo){
-        return getPeriodBetweenDates(convert(timestampFrom).toLocalDate(),convert(timestampTo).toLocalDate());
+    public static int getPeriodBetweenDates(long timestampFrom, long timestampTo) {
+        return getPeriodBetweenDates(convert(timestampFrom).toLocalDate(), convert(timestampTo).toLocalDate());
     }
 }

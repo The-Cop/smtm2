@@ -1,4 +1,4 @@
-package ru.thecop.smtm2.activity.adapter;
+package ru.thecop.smtm2.activity.adapter.stats.spending;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

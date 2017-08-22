@@ -1,18 +1,14 @@
-package ru.thecop.smtm2.activity.adapter;
+package ru.thecop.smtm2.activity.adapter.stats.category;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.util.AmountFormatter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdapter.StatSpendingViewHolder> {
 
@@ -34,26 +30,25 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
     @Override
     public void onBindViewHolder(StatSpendingViewHolder holder, int position) {
         //TODO optimise binding? Minor lags on scrolling
-        StatsCategoryInfoWithLayout categoryInfoWithLayout = mData.statsCategoryInfosWithLayouts.get(position);
-        StatsCategoryInfo categoryInfo = categoryInfoWithLayout.statsCategoryInfo;
+        StatsCategoryAdapterStatsInfo categoryInfo = mData.getCategoryInfos().get(position);
 
         holder.mTextViewCategoryName.setText(categoryInfo.getCategory().getName());
         holder.mTextViewTotal.setText(AmountFormatter.format(categoryInfo.getTotalAmount()));
 
         holder.mTextViewEntries.setText(Integer.toString(categoryInfo.getEntriesCount()));
-        holder.mTextViewEntriesPerDay.setText(AmountFormatter.format(categoryInfo.getEntriesPerDay()));
-        holder.mTextViewPerDay.setText(AmountFormatter.format(categoryInfo.getPerDay()));
-        holder.mTextViewPerWeek.setText(AmountFormatter.format(categoryInfo.getPerWeek()));
-        holder.mTextViewPerMonth.setText(AmountFormatter.format(categoryInfo.getPerMonth()));
-        holder.mTextViewPerYear.setText(AmountFormatter.format(categoryInfo.getPerYear()));
+        holder.mTextViewEntriesPerDay.setText(AmountFormatter.format(categoryInfo.getEntriesPerDay(mData.getPeriodDays())));
+        holder.mTextViewPerDay.setText(AmountFormatter.format(categoryInfo.getPerDay(mData.getPeriodDays())));
+        holder.mTextViewPerWeek.setText(AmountFormatter.format(categoryInfo.getPerWeek(mData.getPeriodDays())));
+        holder.mTextViewPerMonth.setText(AmountFormatter.format(categoryInfo.getPerMonth(mData.getPeriodDays())));
+        holder.mTextViewPerYear.setText(AmountFormatter.format(categoryInfo.getPerYear(mData.getPeriodDays())));
 
-        holder.mAmountShareView.setLayoutParams(categoryInfoWithLayout.shareLayoutParams);
-        holder.mAmountShareOppositeView.setLayoutParams(categoryInfoWithLayout.oppositeShareLayoutParams);
+        holder.mAmountShareView.setLayoutParams(categoryInfo.getShareLayoutParams());
+        holder.mAmountShareOppositeView.setLayoutParams(categoryInfo.getOppositeShareLayoutParams());
     }
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.statsCategoryInfosWithLayouts.size() : 0;
+        return mData != null ? mData.getCategoryInfos().size() : 0;
     }
 
     public void setData(StatsCategoryAdapterData data) {
@@ -104,43 +99,5 @@ public class StatsCategoryAdapter extends RecyclerView.Adapter<StatsCategoryAdap
 
     public interface StatsCategoryAdapterOnClickHandler {
         void onCategoryClick(long categoryId);
-    }
-
-    public static class StatsCategoryAdapterData {
-        List<StatsCategoryInfoWithLayout> statsCategoryInfosWithLayouts;
-        double maxAmount;
-
-        public StatsCategoryAdapterData(List<StatsCategoryInfo> statsCategoryInfos) {
-            for (StatsCategoryInfo statsCategoryInfo : statsCategoryInfos) {
-                if (statsCategoryInfo.getTotalAmount() > maxAmount) {
-                    maxAmount = statsCategoryInfo.getTotalAmount();
-                }
-            }
-            statsCategoryInfosWithLayouts = new ArrayList<>(statsCategoryInfos.size());
-            for (StatsCategoryInfo statsCategoryInfo : statsCategoryInfos) {
-                statsCategoryInfosWithLayouts.add(new StatsCategoryInfoWithLayout(statsCategoryInfo, maxAmount));
-            }
-        }
-    }
-
-    //special class holding layout params - to create them before display
-    private static class StatsCategoryInfoWithLayout {
-        final StatsCategoryInfo statsCategoryInfo;
-        final LinearLayout.LayoutParams shareLayoutParams;
-        final LinearLayout.LayoutParams oppositeShareLayoutParams;
-
-        public StatsCategoryInfoWithLayout(StatsCategoryInfo statsCategoryInfo, double maxAmount) {
-            double amountShareViewWeight = statsCategoryInfo.getTotalAmount() / maxAmount;
-            this.statsCategoryInfo = statsCategoryInfo;
-            shareLayoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    (1f - (float) amountShareViewWeight));
-
-            oppositeShareLayoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    (float) amountShareViewWeight);
-        }
     }
 }

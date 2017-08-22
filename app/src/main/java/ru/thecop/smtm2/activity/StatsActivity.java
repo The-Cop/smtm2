@@ -16,21 +16,19 @@ import android.widget.Toast;
 import org.joda.time.LocalDate;
 import ru.thecop.smtm2.R;
 import ru.thecop.smtm2.SmtmApplication;
-import ru.thecop.smtm2.activity.adapter.StatsCategoryAdapter;
-import ru.thecop.smtm2.activity.adapter.StatsCategoryInfo;
-import ru.thecop.smtm2.activity.adapter.StatsSpendingAdapter;
-import ru.thecop.smtm2.db.CategoryStatsRequestResult;
-import ru.thecop.smtm2.db.DbHelper;
+import ru.thecop.smtm2.activity.adapter.stats.AbstractStatsLoaderResult;
+import ru.thecop.smtm2.activity.adapter.stats.StatsLoaderHelper;
+import ru.thecop.smtm2.activity.adapter.stats.Totals;
+import ru.thecop.smtm2.activity.adapter.stats.category.StatsCategoryAdapter;
+import ru.thecop.smtm2.activity.adapter.stats.category.StatsCategoryLoaderResult;
+import ru.thecop.smtm2.activity.adapter.stats.spending.StatsSpendingAdapter;
+import ru.thecop.smtm2.activity.adapter.stats.spending.StatsSpendingLoaderResult;
 import ru.thecop.smtm2.dialog.DatePickerDialogFragment;
-import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.util.AmountFormatter;
 import ru.thecop.smtm2.util.Constants;
-import ru.thecop.smtm2.util.DateTimeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class StatsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<StatsActivity.StatsLoaderResult> {
+public class StatsActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<AbstractStatsLoaderResult> {
 
     public static final String TAG = "StatsActivity";
     //todo use intent extra to define view mode: spendings/categories
@@ -110,7 +108,7 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         mTextViewPerYear = (TextView) findViewById(R.id.textViewPerYear);
 
         //set totals values to zeroes
-        updateTotalsTextViews(new Totals());
+        updateTotalsTextViews(Totals.EMPTY);
 
         //set default dates to today
         LocalDate initialDate = LocalDate.now();
@@ -204,8 +202,8 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     @Override
-    public Loader<StatsLoaderResult> onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<StatsLoaderResult>(this) {
+    public Loader<AbstractStatsLoaderResult> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<AbstractStatsLoaderResult>(this) {
 
             @Override
             protected void onStartLoading() {
@@ -213,88 +211,50 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
             }
 
             @Override
-            public StatsLoaderResult loadInBackground() {
+            public AbstractStatsLoaderResult loadInBackground() {
                 if (mDisplayModeCategories) {
-                    long timestampFrom;
-                    long timestampTo;
                     //categories display mode
+
                     if (args != null && args.getBoolean(LOADER_ARGUMENT_LOAD_ALL, false)) {
                         //load all
-                        Spending earliest = DbHelper.findEarliestSpending(smtmApplication);
-                        Spending latest = DbHelper.findLatestSpending(smtmApplication);
-                        timestampFrom = earliest != null ? earliest.getTimestamp() : DateTimeUtils.convert(DateTimeUtils.atStartOfDay(LocalDate.now()));
-                        timestampTo = latest != null ? latest.getTimestamp() : DateTimeUtils.convert(DateTimeUtils.atEndOfDay(LocalDate.now()));
-
+                        return StatsLoaderHelper.loadAllTimeCategoryStats(smtmApplication);
                     } else {
-                        timestampFrom = DateTimeUtils.convert(DateTimeUtils.atStartOfDay(mFromDate));
-                        timestampTo = DateTimeUtils.convert(DateTimeUtils.atEndOfDay(mToDate));
+                        //load by specified dates
+                        return StatsLoaderHelper.loadCategoryStatsForDates(smtmApplication, mFromDate, mToDate);
                     }
-                    //load stats
-                    List<CategoryStatsRequestResult> categories = DbHelper.loadCategoriesStats(smtmApplication, timestampFrom, timestampTo);
-                    StatsLoaderResult statsLoaderResult = new StatsLoaderResult();
-                    statsLoaderResult.dateFrom = DateTimeUtils.convert(timestampFrom).toLocalDate();
-                    statsLoaderResult.dateTo = DateTimeUtils.convert(timestampTo).toLocalDate();
-
-                    //convert to info dtos
-                    int periodBetweenDates = DateTimeUtils.getPeriodBetweenDates(timestampFrom, timestampTo);
-                    List<StatsCategoryInfo> statsCategoryInfos = new ArrayList<>(categories.size());
-                    for (CategoryStatsRequestResult category : categories) {
-                        statsCategoryInfos.add(new StatsCategoryInfo(category, periodBetweenDates));
-                    }
-                    statsLoaderResult.categoryAdapterData = new StatsCategoryAdapter.StatsCategoryAdapterData(statsCategoryInfos);
-                    statsLoaderResult.totals = new Totals(periodBetweenDates, categories);
-                    return statsLoaderResult;
                 } else {
                     //spendings display mode
-                    List<Spending> spendings;
-                    StatsLoaderResult statsLoaderResult = new StatsLoaderResult();
+
                     if (args != null && args.getBoolean(LOADER_ARGUMENT_LOAD_ALL, false)) {
-                        //load all sendings
-                        spendings = DbHelper.findAllConfirmedSpendings(smtmApplication);
-
-                        if (!spendings.isEmpty()) {
-                            statsLoaderResult.dateFrom = DateTimeUtils.convert(spendings.get(spendings.size() - 1).getTimestamp()).toLocalDate();
-                            statsLoaderResult.dateTo = DateTimeUtils.convert(spendings.get(0).getTimestamp()).toLocalDate();
-                        }
-
+                        //load all
+                        return StatsLoaderHelper.loadAllTimeSpendingsStats(smtmApplication);
                     } else {
-                        //load spendings by specified dates
-                        spendings = DbHelper.findConfirmedSpendings(smtmApplication,
-                                DateTimeUtils.convert(DateTimeUtils.atStartOfDay(mFromDate)),
-                                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(mToDate)));
-                        statsLoaderResult.dateFrom = mFromDate;
-                        statsLoaderResult.dateTo = mToDate;
+                        //load by specified dates
+                        return StatsLoaderHelper.loadSpendingsStatsForDates(smtmApplication, mFromDate, mToDate);
                     }
-                    statsLoaderResult.spendings = spendings;
-                    statsLoaderResult.totals = new Totals(spendings, DateTimeUtils.getPeriodBetweenDates(statsLoaderResult.dateFrom, statsLoaderResult.dateTo));
-                    return statsLoaderResult;
                 }
             }
         };
     }
 
     @Override
-    public void onLoadFinished(Loader<StatsLoaderResult> loader, StatsLoaderResult data) {
+    public void onLoadFinished(Loader<AbstractStatsLoaderResult> loader, AbstractStatsLoaderResult data) {
         if (data == null) {
             Log.e(TAG, "Failed to retrieve stats");
             return;
         }
-        //if loading all spendings
-        if (mFromDate == null && mToDate == null) {
-            updateFromDate(data.dateFrom);
-            updateToDate(data.dateTo);
-        }
+        updateBothDates(data.getDateFrom(), data.getDateTo());
 
         if (mDisplayModeCategories) {
-            mCategoriesAdapter.setData(data.categoryAdapterData);
+            mCategoriesAdapter.setData(((StatsCategoryLoaderResult) data).getAdapterData());
         } else {
-            mSpendingsAdapter.setData(data.spendings);
+            mSpendingsAdapter.setData(((StatsSpendingLoaderResult) data).getSpendings());
         }
-        updateTotalsTextViews(data.totals);
+        updateTotalsTextViews(data.getTotals());
     }
 
     @Override
-    public void onLoaderReset(Loader<StatsLoaderResult> loader) {
+    public void onLoaderReset(Loader<AbstractStatsLoaderResult> loader) {
 
     }
 
@@ -341,73 +301,11 @@ public class StatsActivity extends AppCompatActivity implements LoaderManager.Lo
         getSupportLoaderManager().restartLoader(STATS_LOADER_ID, args, StatsActivity.this);
     }
 
-    static class StatsLoaderResult {
-        private List<Spending> spendings;
-        private StatsCategoryAdapter.StatsCategoryAdapterData categoryAdapterData;
-        private Totals totals;
-        private LocalDate dateFrom = LocalDate.now();
-        private LocalDate dateTo = LocalDate.now();
-    }
-
-
-    private static class Totals {
-        private int entriesCount;
-        private int periodDays;
-        private double sum;
-
-        Totals() {
-        }
-
-        public Totals(List<Spending> spendings, int periodDays) {
-            this.periodDays = periodDays;
-            this.entriesCount = spendings.size();
-            sum = 0d;
-            for (Spending spending : spendings) {
-                sum += spending.getAmount();
-            }
-        }
-
-        Totals(int periodBetweenDates, List<CategoryStatsRequestResult> categories) {
-            this.periodDays = periodBetweenDates;
-            for (CategoryStatsRequestResult category : categories) {
-                this.entriesCount += category.getEntriesCount();
-                this.sum += category.getTotalAmount();
-            }
-        }
-
-        int getEntriesCount() {
-            return entriesCount;
-        }
-
-        int getPeriodDays() {
-            return periodDays;
-        }
-
-        double getSum() {
-            return sum;
-        }
-
-        double getEntriesPerDay() {
-            if (entriesCount == 0 || periodDays == 0) {
-                return 0;
-            }
-            return ((double) entriesCount) / periodDays;
-        }
-
-        double getPerDay() {
-            return sum / periodDays;
-        }
-
-        double getPerWeek() {
-            return getPerDay() * 7;
-        }
-
-        double getPerMonth() {
-            return getPerDay() * 30;
-        }
-
-        double getPerYear() {
-            return getPerDay() * 365;
-        }
-    }
+//    static class StatsLoaderResulthfghf {
+//        private List<Spending> spendings;
+//        private StatsCategoryAdapter.StatsCategoryAdapterData categoryAdapterData;
+//        private Totals totals;
+//        private LocalDate dateFrom = LocalDate.now();
+//        private LocalDate dateTo = LocalDate.now();
+//    }
 }

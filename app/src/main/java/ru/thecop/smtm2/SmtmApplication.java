@@ -5,12 +5,13 @@ import android.util.Log;
 import org.greenrobot.greendao.database.Database;
 import ru.thecop.smtm2.db.DbDevUtils;
 import ru.thecop.smtm2.db.DbHelper;
+import ru.thecop.smtm2.db.SessionHolder;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.DaoMaster;
 import ru.thecop.smtm2.model.DaoSession;
 import ru.thecop.smtm2.preferences.PreferenceUtils;
 
-public class SmtmApplication extends Application {
+public class SmtmApplication extends Application implements SessionHolder {
 
     private static final String TAG = "SmtmApplication";
     private static final String DB_NAME = "smtm2";
@@ -31,7 +32,8 @@ public class SmtmApplication extends Application {
         }
     }
 
-    public DaoSession getDaoSession() {
+    @Override
+    public DaoSession getSession() {
         return daoSession;
     }
 
