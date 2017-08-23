@@ -11,6 +11,7 @@ import ru.thecop.smtm2.model.DaoMaster;
 import ru.thecop.smtm2.model.DaoSession;
 import ru.thecop.smtm2.preferences.PreferenceUtils;
 
+//todo ripple animation on buttons and selectable list items
 public class SmtmApplication extends Application implements SessionHolder {
 
     private static final String TAG = "SmtmApplication";
@@ -40,6 +41,7 @@ public class SmtmApplication extends Application implements SessionHolder {
     //todo move to another class?
     private void putInitialData() {
         Log.d(TAG, "Writing initial data");
+        //todo savi in transaction
         String[] initialCategories = getResources().getStringArray(R.array.initial_categories_array);
         for (String initialCategory : initialCategories) {
             Category category = new Category();
