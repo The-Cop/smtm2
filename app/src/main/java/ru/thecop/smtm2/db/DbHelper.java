@@ -143,7 +143,7 @@ public final class DbHelper {
 
     public static List<Category> findCategoriesNameContains(String string, SessionHolder holder) {
         CategoryDao categoryDao = holder.getSession().getCategoryDao();
-        //TODO screen string?
+        //TODO screen/escape string?
         String like = "%" + string.trim().toLowerCase() + "%";
         return categoryDao.queryBuilder()
                 .where(CategoryDao.Properties.LowerCaseName.like(like))

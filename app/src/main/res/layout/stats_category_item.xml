@@ -200,7 +200,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <!--TODO replace all dravables to vector-->
     <!--TODO replace all android:src to app:srcCompat-->
 </android.support.v7.widget.CardView>
 

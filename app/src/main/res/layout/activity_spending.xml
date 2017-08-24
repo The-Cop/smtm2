@@ -18,10 +18,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-        <!--todo delete date label-->
-
         <!--todo larger date text, underlined, accent color-->
-        <!--todo show date pick dialog on click-->
         <TextView
                 android:onClick="showDatePickerDialog"
                 android:id="@+id/textViewSpendingDate"
