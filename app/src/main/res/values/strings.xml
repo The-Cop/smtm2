@@ -14,6 +14,8 @@
 
     <string name="from_date_after_to_date">From date can not be after to date</string>
 
+    <string name="no_category">(No category)</string>
+
     <!--Stats activity-->
     <string name="stats_total">Total</string>
     <string name="stats_entries_per_day">Entries/day</string>

@@ -42,7 +42,12 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
         holder.date.setText(DateTimeUtils.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
         holder.amount.setText(Double.toString(s.getAmount()));
         holder.smsFrom.setText(s.getSmsFrom());
-        holder.category.setText(c.getName());
+        holder.category.setText(c!=null?c.getName():mContext.getString(R.string.no_category));
+        //todo show sms text
+        //todo properly hide the confirm button
+        if(c==null){
+            holder.confirmButton.setVisibility(View.GONE);
+        }
     }
 
     @Override

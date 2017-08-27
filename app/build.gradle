@@ -40,4 +40,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:greendao:3.2.2'
     testCompile 'junit:junit:4.12'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 }

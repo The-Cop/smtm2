@@ -6,6 +6,8 @@ import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.db.dto.CategoryStat;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.CategoryDao;
+import ru.thecop.smtm2.model.CategoryKeyword;
+import ru.thecop.smtm2.model.CategoryKeywordDao;
 import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.model.SpendingDao;
 import ru.thecop.smtm2.util.DateTimeUtils;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//todo separate file to spendings/categories/keywords
 public final class DbHelper {
     private static final String TAG = "DbHelper";
     //todo add thread.sleeps to test loading progressbars
@@ -179,5 +182,13 @@ public final class DbHelper {
             cursor.close();
         }
         return result;
+    }
+
+    //Category keywords-----------------------------------------------------------------
+    public static List<CategoryKeyword> findAllCategoryKeywords(SessionHolder holder) {
+        CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
+        return keywordDao.queryBuilder()
+                .orderAsc(CategoryKeywordDao.Properties.Keyword)
+                .list();
     }
 }

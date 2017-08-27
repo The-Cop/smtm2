@@ -16,6 +16,7 @@ import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.activity.adapter.NonConfirmedAdapter;
 import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Spending;
+import ru.thecop.smtm2.sms.SmsReceivePermissionRequester;
 
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SmsReceivePermissionRequester.requestPermission(this);
 
         //Click listener for FAB button
         FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);

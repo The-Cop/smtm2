@@ -1,13 +1,13 @@
 package ru.thecop.smtm2.model;
 
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 @Entity
 public class Spending {
@@ -25,10 +25,9 @@ public class Spending {
     @NotNull
     private double amount;
 
-    @NotNull
     @ToOne(joinProperty = "categoryId")
     private Category category;
-    private long categoryId;
+    private Long categoryId;
 
     private String comment;
 
@@ -46,22 +45,19 @@ public class Spending {
     @NotNull
     private String uid;
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 593183288)
     private transient SpendingDao myDao;
 
-    @Generated(hash = 1398711129)
+
+    @Generated(hash = 1000656404)
     public Spending(Long id, long updatedTimestamp, long timestamp, double amount,
-                    long categoryId, String comment, String smsText, String smsFrom,
-                    boolean confirmed, boolean deleted, @NotNull String uid) {
+            Long categoryId, String comment, String smsText, String smsFrom,
+            boolean confirmed, boolean deleted, @NotNull String uid) {
         this.id = id;
         this.updatedTimestamp = updatedTimestamp;
         this.timestamp = timestamp;
@@ -78,6 +74,11 @@ public class Spending {
     @Generated(hash = 2056300050)
     public Spending() {
     }
+
+
+    @Generated(hash = 1372501278)
+    private transient Long category__resolvedKey;
+
 
     public Long getId() {
         return this.id;
@@ -111,12 +112,8 @@ public class Spending {
         this.amount = amount;
     }
 
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return this.categoryId;
-    }
-
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getComment() {
@@ -167,15 +164,32 @@ public class Spending {
         this.uid = uid;
     }
 
-    @Generated(hash = 1372501278)
-    private transient Long category__resolvedKey;
 
-    /**
-     * To-one relationship, resolved on first access.
-     */
-    @Generated(hash = 234631651)
+    @Override
+    public String toString() {
+        return "Spending{" +
+                "id=" + id +
+                ", updatedTimestamp=" + updatedTimestamp +
+                ", timestamp=" + timestamp +
+                ", amount=" + amount +
+                ", categoryId=" + categoryId +
+                ", comment='" + comment + '\'' +
+                ", smsText='" + smsText + '\'' +
+                ", smsFrom='" + smsFrom + '\'' +
+                ", confirmed=" + confirmed +
+                ", deleted=" + deleted +
+                ", uid='" + uid + '\'' +
+                '}';
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 728129201)
     public Category getCategory() {
-        long __key = this.categoryId;
+        Long __key = this.categoryId;
         if (category__resolvedKey == null || !category__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -191,18 +205,12 @@ public class Spending {
         return category;
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
-    @Generated(hash = 1927364589)
-    public void setCategory(@NotNull Category category) {
-        if (category == null) {
-            throw new DaoException(
-                    "To-one property 'categoryId' has not-null constraint; cannot set to-one to null");
-        }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1132018243)
+    public void setCategory(Category category) {
         synchronized (this) {
             this.category = category;
-            categoryId = category.getId();
+            categoryId = category == null ? null : category.getId();
             category__resolvedKey = categoryId;
         }
     }
@@ -241,23 +249,6 @@ public class Spending {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
-    }
-
-    @Override
-    public String toString() {
-        return "Spending{" +
-                "id=" + id +
-                ", updatedTimestamp=" + updatedTimestamp +
-                ", timestamp=" + timestamp +
-                ", amount=" + amount +
-                ", categoryId=" + categoryId +
-                ", comment='" + comment + '\'' +
-                ", smsText='" + smsText + '\'' +
-                ", smsFrom='" + smsFrom + '\'' +
-                ", confirmed=" + confirmed +
-                ", deleted=" + deleted +
-                ", uid='" + uid + '\'' +
-                '}';
     }
 
     /** called by internal mechanisms, do not call yourself. */
