@@ -10,13 +10,14 @@ import android.util.Log;
 import org.joda.time.LocalDateTime;
 import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.db.DbHelper;
-import ru.thecop.smtm2.db.SessionHolder;
 import ru.thecop.smtm2.model.Category;
 import ru.thecop.smtm2.model.CategoryKeyword;
 import ru.thecop.smtm2.model.Spending;
+import ru.thecop.smtm2.preferences.PreferenceUtils;
 import ru.thecop.smtm2.util.DateTimeUtils;
 
 import java.util.List;
+import java.util.Set;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
@@ -48,22 +49,41 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             String body = smsMessage.getMessageBody();
             String address = smsMessage.getOriginatingAddress();
             Log.d(TAG, "Message from " + address + "; text = " + body);
-            SmtmApplication smtmApplication = ((SmtmApplication) context.getApplicationContext());
-            parseAndSaveSpending(body, address, smtmApplication);
+
+            parseAndSaveSpending(body, address, context);
         }
     }
 
-    private void parseAndSaveSpending(String body, String address, SessionHolder sessionHolder) {
-        //TODO check if sms contains stop-words, then return
-        //TODO check if sms contains keywords, then parse
+    //todo test this
+    private void parseAndSaveSpending(String body, String address, Context context) {
+        String bodyLowercase = body.toLowerCase();
+        Set<String> stopWords = PreferenceUtils.getSmsParseStopWords(context);
+        for (String stopWord : stopWords) {
+            if (bodyLowercase.contains(stopWord.toLowerCase())) {
+                Log.d(TAG, "Sms contains stopword: " + stopWord);
+                return;
+            }
+        }
+        Set<String> goWords = PreferenceUtils.getSmsParseStopWords(context);
+        boolean containsGoWord = false;
+        for (String goWord : goWords) {
+            if (bodyLowercase.contains(goWord.toLowerCase())) {
+                containsGoWord = true;
+                break;
+            }
+        }
+        if (!containsGoWord) {
+            Log.d(TAG, "Sms does not contain go-words");
+            return;
+        }
         AmountParseResult amountParseResult = AmountExtractor.extractSum(body);
         if (amountParseResult == null) {
             return;
         }
 
-        String bodyLowercase = body.toLowerCase();
         Category category = null;
-        List<CategoryKeyword> categoryKeywords = DbHelper.findAllCategoryKeywords(sessionHolder);
+        SmtmApplication smtmApplication = ((SmtmApplication) context.getApplicationContext());
+        List<CategoryKeyword> categoryKeywords = DbHelper.findAllCategoryKeywords(smtmApplication);
         for (CategoryKeyword categoryKeyword : categoryKeywords) {
             if (bodyLowercase.contains(categoryKeyword.getKeyword().toLowerCase())) {
                 category = categoryKeyword.getCategory();
@@ -78,7 +98,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         spending.setConfirmed(false);
         spending.setSmsFrom(address);
         spending.setSmsText(body);
-        DbHelper.create(spending, sessionHolder);
+        DbHelper.create(spending, smtmApplication);
     }
 
 
