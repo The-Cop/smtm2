@@ -32,7 +32,7 @@ public final class DbHelper {
         spending.setDeleted(false);
     }
 
-    public static Spending create(Spending spending, SessionHolder holder) {
+    public static Spending create(Spending spending, ContextAndSessionHolder holder) {
         prepareNewSpending(spending);
 
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
@@ -41,7 +41,7 @@ public final class DbHelper {
         return spending;
     }
 
-    public static void createInSingleTransaction(List<Spending> spendings, SessionHolder holder) {
+    public static void createSpendingsInSingleTransaction(List<Spending> spendings, ContextAndSessionHolder holder) {
         holder.getSession().getDatabase().beginTransaction();
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         try {
@@ -58,14 +58,14 @@ public final class DbHelper {
         }
     }
 
-    public static void update(Spending spending, SessionHolder holder) {
+    public static void update(Spending spending, ContextAndSessionHolder holder) {
         spending.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         spendingDao.update(spending);
         Log.d(TAG, "Updated spending " + spending.toString());
     }
 
-    public static List<Spending> findAllNonConfirmedSpendings(SessionHolder holder) {
+    public static List<Spending> findAllNonConfirmedSpendings(ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         return spendingDao.queryBuilder()
                 .where(SpendingDao.Properties.Confirmed.eq(false))
@@ -73,7 +73,7 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<Spending> findAllConfirmedSpendings(SessionHolder holder) {
+    public static List<Spending> findAllConfirmedSpendings(ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         return spendingDao.queryBuilder()
                 .where(SpendingDao.Properties.Confirmed.eq(true))
@@ -81,7 +81,7 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<Spending> findConfirmedSpendings(SessionHolder holder, long timestampFrom, long timestampTo) {
+    public static List<Spending> findConfirmedSpendings(ContextAndSessionHolder holder, long timestampFrom, long timestampTo) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         return spendingDao.queryBuilder()
                 .where(SpendingDao.Properties.Confirmed.eq(true),
@@ -91,12 +91,12 @@ public final class DbHelper {
                 .list();
     }
 
-    public static Spending findSpendingById(long id, SessionHolder holder) {
+    public static Spending findSpendingById(long id, ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         return spendingDao.load(id);
     }
 
-    public static Spending findLatestSpending(SessionHolder holder) {
+    public static Spending findLatestSpending(ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         List<Spending> list = spendingDao.queryBuilder()
                 .orderDesc(SpendingDao.Properties.Timestamp)
@@ -108,7 +108,7 @@ public final class DbHelper {
         return list.get(0);
     }
 
-    public static Spending findEarliestSpending(SessionHolder holder) {
+    public static Spending findEarliestSpending(ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         List<Spending> list = spendingDao.queryBuilder()
                 .orderAsc(SpendingDao.Properties.Timestamp)
@@ -122,7 +122,7 @@ public final class DbHelper {
 
     //Categories-----------------------------------------------------------------
 
-    public static Category create(Category category, SessionHolder holder) {
+    public static Category create(Category category, ContextAndSessionHolder holder) {
         category.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
         category.setLowerCaseName(category.getName().toLowerCase());
 
@@ -132,19 +132,37 @@ public final class DbHelper {
         return category;
     }
 
-    public static Category findCategoryById(long id, SessionHolder holder) {
+    public static void createCategoriesInSingleTransaction(List<Category> categories, ContextAndSessionHolder holder) {
+        holder.getSession().getDatabase().beginTransaction();
+        CategoryDao categoryDao = holder.getSession().getCategoryDao();
+        try {
+            for (Category category : categories) {
+                category.setUpdatedTimestamp(DateTimeUtils.convert(LocalDateTime.now()));
+                category.setLowerCaseName(category.getName().toLowerCase());
+                categoryDao.insert(category);
+                Log.d(TAG, "Inserted new category " + category.toString());
+            }
+            holder.getSession().getDatabase().setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to insert categories in transaction: " + e.getMessage());
+        } finally {
+            holder.getSession().getDatabase().endTransaction();
+        }
+    }
+
+    public static Category findCategoryById(long id, ContextAndSessionHolder holder) {
         CategoryDao categoryDao = holder.getSession().getCategoryDao();
         return categoryDao.load(id);
     }
 
-    public static List<Category> findAllCategories(SessionHolder holder) {
+    public static List<Category> findAllCategories(ContextAndSessionHolder holder) {
         CategoryDao categoryDao = holder.getSession().getCategoryDao();
         return categoryDao.queryBuilder()
                 .orderAsc(CategoryDao.Properties.LowerCaseName)
                 .list();
     }
 
-    public static List<Category> findCategoriesNameContains(String string, SessionHolder holder) {
+    public static List<Category> findCategoriesNameContains(String string, ContextAndSessionHolder holder) {
         CategoryDao categoryDao = holder.getSession().getCategoryDao();
         //TODO screen/escape string?
         String like = "%" + string.trim().toLowerCase() + "%";
@@ -154,7 +172,7 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<CategoryStat> loadCategoriesStats(SessionHolder holder,
+    public static List<CategoryStat> loadCategoriesStats(ContextAndSessionHolder holder,
                                                          long spendingsTimestampFrom,
                                                          long spendingsTimestampTo) {
         String sql = "select ct." + CategoryDao.Properties.Id.columnName + " as catId"
@@ -185,7 +203,7 @@ public final class DbHelper {
     }
 
     //Category keywords-----------------------------------------------------------------
-    public static List<CategoryKeyword> findAllCategoryKeywords(SessionHolder holder) {
+    public static List<CategoryKeyword> findAllCategoryKeywords(ContextAndSessionHolder holder) {
         CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
         return keywordDao.queryBuilder()
                 .orderAsc(CategoryKeywordDao.Properties.Keyword)

@@ -16,6 +16,7 @@ import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.preferences.PreferenceUtils;
 import ru.thecop.smtm2.util.DateTimeUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -57,25 +58,16 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     //todo test this
     private void parseAndSaveSpending(String body, String address, Context context) {
         String bodyLowercase = body.toLowerCase();
-        Set<String> stopWords = PreferenceUtils.getSmsParseStopWords(context);
-        for (String stopWord : stopWords) {
-            if (bodyLowercase.contains(stopWord.toLowerCase())) {
-                Log.d(TAG, "Sms contains stopword: " + stopWord);
-                return;
-            }
-        }
-        Set<String> goWords = PreferenceUtils.getSmsParseStopWords(context);
-        boolean containsGoWord = false;
-        for (String goWord : goWords) {
-            if (bodyLowercase.contains(goWord.toLowerCase())) {
-                containsGoWord = true;
-                break;
-            }
-        }
-        if (!containsGoWord) {
-            Log.d(TAG, "Sms does not contain go-words");
+
+        List<String> bodyWords = Arrays.asList(body.split(" "));
+        if (containsStopWords(bodyWords, context)) {
             return;
         }
+
+        if (!containsGoWord(bodyWords, context)) {
+            return;
+        }
+
         AmountParseResult amountParseResult = AmountExtractor.extractSum(body);
         if (amountParseResult == null) {
             return;
@@ -99,6 +91,29 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         spending.setSmsFrom(address);
         spending.setSmsText(body);
         DbHelper.create(spending, smtmApplication);
+    }
+
+    //todo test this
+    private boolean containsStopWords(List<String> bodyWords, Context context) {
+        Set<String> stopWords = PreferenceUtils.getSmsParseStopWords(context);
+        for (String stopWord : stopWords) {
+            if (bodyWords.contains(stopWord.toLowerCase())) {
+                Log.d(TAG, "Sms contains stopword: " + stopWord);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //todo test this
+    private boolean containsGoWord(List<String> bodyWords, Context context) {
+        Set<String> goWords = PreferenceUtils.getSmsParseStopWords(context);
+        for (String goWord : goWords) {
+            if (bodyWords.contains(goWord.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -14,8 +14,8 @@ public class DbDevUtils {
     private static final Random r = new Random();
     private static final int SPENDINGS_COUNT = 5000;
 
-    public static void fillDataBase(SessionHolder sessionHolder) {
-        List<Category> categories = DbHelper.findAllCategories(sessionHolder);
+    public static void fillDataBase(ContextAndSessionHolder contextAndSessionHolder) {
+        List<Category> categories = DbHelper.findAllCategories(contextAndSessionHolder);
         List<Spending> spendings = new ArrayList<>(SPENDINGS_COUNT);
         for (int i = 0; i < SPENDINGS_COUNT; i++) {
             Spending s = new Spending();
@@ -26,7 +26,7 @@ public class DbDevUtils {
             s.setComment("Hey, comment number " + i);
             spendings.add(s);
         }
-        DbHelper.createInSingleTransaction(spendings, sessionHolder);
+        DbHelper.createSpendingsInSingleTransaction(spendings, contextAndSessionHolder);
     }
 
     private static long randomTimestamp() {

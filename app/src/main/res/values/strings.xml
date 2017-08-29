@@ -39,4 +39,40 @@
         <item>Тестовая КАТЕГОРИЯ</item>
     </string-array>
 
+    <!--Default sms parsing go-words-->
+    <!--todo remove dev items-->
+    <string-array name="initial_sms_parse_go_words">
+        <item>test</item>
+
+        <item>pokupka</item>
+        <item>покупка</item>
+
+        <item>platezh</item>
+        <item>платеж</item>
+
+        <item>oplata</item>
+        <item>оплата</item>
+    </string-array>
+
+    <!--Default sms parsing stop-words-->
+    <!--todo remove dev items-->
+    <string-array name="initial_sms_parse_stop_words">
+        <item>code</item>
+        <item>cod</item>
+        <item>kod</item>
+        <item>код</item>
+
+        <item>parol</item>
+        <item>parol\'</item>
+        <item>пароль</item>
+
+        <item>sms-kod</item>
+        <item>смс-код</item>
+
+        <item>password</item>
+
+        <item>ключ</item>
+        <item>kluch</item>
+    </string-array>
+
 </resources>
