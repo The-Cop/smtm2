@@ -1,6 +1,7 @@
 package ru.thecop.smtm2.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -16,6 +17,7 @@ import ru.thecop.smtm2.SmtmApplication;
 import ru.thecop.smtm2.activity.adapter.NonConfirmedAdapter;
 import ru.thecop.smtm2.db.DbHelper;
 import ru.thecop.smtm2.model.Spending;
+import ru.thecop.smtm2.preferences.PreferenceUtils;
 import ru.thecop.smtm2.sms.SmsReceivePermissionRequester;
 
 import java.util.List;
@@ -23,7 +25,8 @@ import java.util.List;
 //todo refactor sample android:text to tools:text in layouts
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<List<Spending>>,
-        NonConfirmedAdapter.NonConfirmedAdapterButtonsClickHandler {
+        NonConfirmedAdapter.NonConfirmedAdapterButtonsClickHandler,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int NON_CONFIRMED_SPENDINGS_LOADER_ID = 1;
     public static final String TAG = "MainActivity";
@@ -124,5 +127,28 @@ public class MainActivity extends AppCompatActivity implements
         Intent selectCategoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
         selectCategoryIntent.putExtra(CategoryActivity.EXTRA_SPENDING_ID, spending.getId());
         startActivity(selectCategoryIntent);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(PreferenceUtils.PREF_HAS_NEW_SMS_PARSED)) {
+            Log.d(TAG, "onSharedPreferenceChanged detected! Key = " + key);
+            if (PreferenceUtils.getHasNewSmsParsed(this)) {
+                getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
+                PreferenceUtils.setHasNewSmsParsed(this, false);
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PreferenceUtils.registerListener(this, this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PreferenceUtils.unRegisterListener(this, this);
     }
 }

@@ -10,9 +10,11 @@ import java.util.Set;
 
 public class PreferenceUtils {
 
+    //todo move to strings.xml
     private static final String PREF_DATABASE_INITIALIZED = "pref_database_initialized";
     private static final String PREF_SMS_PARSE_STOP_WORDS = "pref_sms_parse_stop_words";
     private static final String PREF_SMS_PARSE_GO_WORDS = "pref_sms_parse_go_words";
+    public static final String PREF_HAS_NEW_SMS_PARSED = "pref_has_new_sms_parsed";
 
     public static boolean isDatabaseInitialized(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -59,5 +61,27 @@ public class PreferenceUtils {
         SharedPreferences.Editor editor = sp.edit();
         editor.putStringSet(PREF_SMS_PARSE_GO_WORDS, lowerCased);
         editor.apply();
+    }
+
+    public static void setHasNewSmsParsed(Context context, boolean value) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(PREF_HAS_NEW_SMS_PARSED, value);
+        editor.apply();
+    }
+
+    public static boolean getHasNewSmsParsed(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(PREF_HAS_NEW_SMS_PARSED, false);
+    }
+
+    public static void registerListener(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public static void unRegisterListener(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.unregisterOnSharedPreferenceChangeListener(listener);
     }
 }
