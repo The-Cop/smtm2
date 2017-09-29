@@ -16,8 +16,6 @@ import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.preferences.PreferenceUtils;
 import ru.thecop.smtm2.util.DateTimeUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,11 +54,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    //todo test this
     private void parseAndSaveSpending(String body, String address, Context context) {
 
         String bodyLowercase = body.toLowerCase();
-        Set<String> bodyWords = extractWords(bodyLowercase);
+        Set<String> bodyWords = WordExtractor.extractWords(bodyLowercase);
 
         if (containsStopWords(bodyWords, context)) {
             return;
@@ -97,16 +94,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         PreferenceUtils.setHasNewSmsParsed(context, true);
     }
 
-    private Set<String> extractWords(String smsBodyLowercase) {
-        Set<String> result = new HashSet<>();
-        List<String> bodyWords = Arrays.asList(smsBodyLowercase.split("\\s"));
-        for (String bodyWord : bodyWords) {
-            result.add(bodyWord.replaceAll("[^\\w]", ""));
-        }
-        return result;
-    }
-
-    //todo test this
     private boolean containsStopWords(Set<String> bodyWords, Context context) {
         Set<String> stopWords = PreferenceUtils.getSmsParseStopWords(context);
         for (String stopWord : stopWords) {
@@ -118,7 +105,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         return false;
     }
 
-    //todo test this
     private boolean containsGoWord(Set<String> bodyWords, Context context) {
         Set<String> goWords = PreferenceUtils.getSmsParseGoWords(context);
         for (String goWord : goWords) {
