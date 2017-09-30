@@ -26,6 +26,31 @@
     <string name="stats_per_month">Per month</string>
     <string name="stats_per_year">Per year</string>
 
+    <!--Settings screen-->
+    <string name="settings_screen_caption">Settings</string>
+
+    <string name="settings_category_keywords_caption">Categories keywords</string>
+    <string name="settings_category_keywords_desc">Define keywords for categories - parsed sms spendings will be assigned a category according to them</string>
+
+    <string name="settings_sms_go_words_caption">Sms go-words</string>
+    <string name="settings_sms_go_words_desc">Sms with text containing any of specified words will be parsed</string>
+
+    <string name="settings_sms_stop_words_caption">Sms stop-words</string>
+    <string name="settings_sms_stop_words_desc">Sms with text containing any of specified words will not be parsed, even if it contains go-words</string>
+
+    <string name="settings_sms_export_caption">Export</string>
+    <string name="settings_sms_export_desc">Create a CSV file with all spendings</string>
+
+    <string name="settings_sms_import_caption">Import</string>
+    <string name="settings_sms_import_desc">Read and store spendings from a CSV file</string>
+
+    <string name="settings_sms_edit_categories_caption">Edit categories</string>
+    <string name="settings_sms_edit_categories_desc">Rename or delete categories</string>
+
+    <string name="settings_sms_delete_spendings_caption">Delete spendings</string>
+    <string name="settings_sms_delete_spendings_desc">Delete by range, category or all of them</string>
+
+
     <!--Default categories-->
     <!--todo remove dev items-->
     <string-array name="initial_categories_array">

@@ -27,6 +27,7 @@ import ru.thecop.smtm2.dialog.DatePickerDialogFragment;
 import ru.thecop.smtm2.util.AmountFormatter;
 import ru.thecop.smtm2.util.Constants;
 
+//todo ability to delete spending in spending stats mode
 public class StatsActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<AbstractStatsLoaderResult> {
 

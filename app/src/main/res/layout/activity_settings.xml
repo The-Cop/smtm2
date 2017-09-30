@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="ru.thecop.smtm2.activity.SettingsActivity">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                >
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_list_black_24px"
+                        android:id="@+id/imageViewCategoryKeywords"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_category_keywords_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewCategoryKeywordsCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewCategoryKeywords"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewCategoryKeywords"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_category_keywords_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewCategoryKeywordsDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCategoryKeywordsCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewCategoryKeywordsCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_visibility_black_24px"
+                        android:id="@+id/imageViewSmsGoWords"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_go_words_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewSmsGoWordsCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewSmsGoWords"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewSmsGoWords"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_go_words_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewSmsGoWordsDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSmsGoWordsCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewSmsGoWordsCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_visibility_off_black_24px"
+                        android:id="@+id/imageViewSmsStopWords"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_stop_words_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewSmsStopWordsCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewSmsStopWords"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewSmsStopWords"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_stop_words_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewSmsStopWordsDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSmsStopWordsCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewSmsStopWordsCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_file_upload_black_24px"
+                        android:id="@+id/imageViewExport"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_export_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewExportCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewExport"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewExport"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_export_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewExportDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewExportCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewExportCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_file_download_black_24px"
+                        android:id="@+id/imageViewImport"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_import_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewImportCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewImport"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewImport"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_import_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewImportDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewImportCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewImportCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/black"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_mode_edit_black_24px"
+                        android:id="@+id/imageViewCategoryEdit"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_edit_categories_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewCategoryEditCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewCategoryEdit"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewCategoryEdit"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_edit_categories_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewCategoryEditDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCategoryEditCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewCategoryEditCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:layout_marginLeft="@dimen/settings_cards_margin_left"
+                android:layout_marginRight="@dimen/settings_cards_margin_right"
+                android:layout_marginTop="@dimen/settings_cards_margin_top"
+                android:layout_marginBottom="@dimen/settings_cards_margin_bottom"
+                app:cardCornerRadius="@dimen/settings_cards_corner_radius"
+                app:cardElevation="@dimen/settings_cards_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:tint="@android:color/holo_red_dark"
+                        android:layout_width="@dimen/settings_card_image_size"
+                        android:layout_height="@dimen/settings_card_image_size"
+                        app:srcCompat="@drawable/ic_delete_forever_black_24px"
+                        android:id="@+id/imageViewDeleteSpendings"
+                        android:layout_marginLeft="@dimen/settings_card_image_margin_left"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/settings_card_image_margin_top"/>
+
+                <TextView
+                        android:text="@string/settings_sms_delete_spendings_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewDeleteSpendingsCaption"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintLeft_toRightOf="@+id/imageViewDeleteSpendings"
+                        android:layout_marginLeft="@dimen/settings_card_caption_from_image_margin_left"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewDeleteSpendings"
+                        android:layout_marginTop="0dp"/>
+
+                <TextView
+                        android:text="@string/settings_sms_delete_spendings_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewDeleteSpendingsDesc"
+                        android:layout_marginTop="@dimen/settings_card_desc_from_caption_margin_top"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewDeleteSpendingsCaption"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/textViewDeleteSpendingsCaption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/settings_card_desc_margin_bottom"
+                        android:layout_marginRight="@dimen/settings_card_desc_margin_right"
+                        app:layout_constraintRight_toRightOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

@@ -15,4 +15,22 @@
     <dimen name="stats_totals_distance_from_border">3dp</dimen>
     <dimen name="stats_totals_distance_from_bottom">3dp</dimen>
     <dimen name="stats_totals_distance_between_rows">0dp</dimen>
+
+    <!--Settings cards-->
+    <dimen name="settings_cards_margin_top">4dp</dimen>
+    <dimen name="settings_cards_margin_bottom">4dp</dimen>
+    <dimen name="settings_cards_margin_left">8dp</dimen>
+    <dimen name="settings_cards_margin_right">8dp</dimen>
+    <dimen name="settings_cards_elevation">2dp</dimen>
+    <dimen name="settings_cards_corner_radius">4dp</dimen>
+
+    <dimen name="settings_card_image_size">42dp</dimen>
+    <dimen name="settings_card_image_margin_left">8dp</dimen>
+    <dimen name="settings_card_image_margin_top">8dp</dimen>
+
+    <dimen name="settings_card_caption_from_image_margin_left">8dp</dimen>
+    <dimen name="settings_card_desc_from_caption_margin_top">4dp</dimen>
+    <dimen name="settings_card_desc_margin_bottom">8dp</dimen>
+    <dimen name="settings_card_desc_margin_right">8dp</dimen>
+
 </resources>

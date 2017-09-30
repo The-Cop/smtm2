@@ -151,4 +151,9 @@ public class MainActivity extends AppCompatActivity implements
         super.onStop();
         PreferenceUtils.unRegisterListener(this, this);
     }
+
+    public void showSettingsActivity(View view) {
+        Intent statsActiviryIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(statsActiviryIntent);
+    }
 }
