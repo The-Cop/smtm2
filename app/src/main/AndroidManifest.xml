@@ -48,6 +48,9 @@
                 android:label="@string/settings_screen_caption"
                 android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".activity.WordListEditActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ public final class WordExtractor {
 
     public static Set<String> extractWords(String smsBody) {
         Pattern replaceNonWordCharsPattern;
-            replaceNonWordCharsPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
+        replaceNonWordCharsPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 
         Set<String> result = new HashSet<>();
         List<String> bodyWords = Arrays.asList(smsBody.split("\\s"));

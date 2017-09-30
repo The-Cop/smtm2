@@ -25,18 +25,22 @@ public class CategoryActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<List<Category>>,
         CategoryAdapter.CategoryAdapterOnClickHandler {
 
+    public enum Mode {
+        NEW_SPENDING, EDIT_SPENDING, EDIT_NON_CONFIRMED_SPENDING, EDIT_KEYWORDS
+    }
+
     public static final String TAG = "CategoryActivity";
 
+    public static final String EXTRA_MODE = "Mode";
     //If editing an existing spending - put it's id in extra
     public static final String EXTRA_SPENDING_ID = "SpendingId";
-    //TODO if spending is not confirmed, open an keyword adding activity for selected category
-    public static final String EXTRA_SPENDING_NON_CONFIRMED = "SpendingNonConfirmed";
 
     private static final int CATEGORIES_LOADER_ID = 0;
 
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
     private EditText mEditTextFilter;
+    private Mode mode;
 
     private Long mEditedSpendingId = null;
 
@@ -45,6 +49,7 @@ public class CategoryActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        initMode();
         initFilterEditText();
         initRecyclerAndAdapter();
 
@@ -59,6 +64,20 @@ public class CategoryActivity extends AppCompatActivity implements
                 null,
                 this
         );
+    }
+
+    private void initMode() {
+        if (!getIntent().hasExtra(EXTRA_MODE)) {
+            throw new IllegalStateException("No mode specified");
+        }
+        mode = (Mode) getIntent().getSerializableExtra(EXTRA_MODE);
+        switch (mode) {
+            case EDIT_SPENDING:
+            case EDIT_NON_CONFIRMED_SPENDING:
+                if (!getIntent().hasExtra(EXTRA_SPENDING_ID)) {
+                    throw new IllegalStateException("No spending id specified");
+                }
+        }
     }
 
     private void initFilterEditText() {
@@ -99,6 +118,7 @@ public class CategoryActivity extends AppCompatActivity implements
     }
 
 
+    //TODO remove everywhere unnecessary onstart, ondestroy and other overrides
     @Override
     protected void onStart() {
         super.onStart();
@@ -172,11 +192,29 @@ public class CategoryActivity extends AppCompatActivity implements
             //save new category
             DbHelper.create(category, (SmtmApplication) getApplication());
         }
-        Intent intent = new Intent(CategoryActivity.this, SpendingActivity.class);
-        intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
-        //if editing an existing spending, pass the id
-        if (mEditedSpendingId != null) {
-            intent.putExtra(SpendingActivity.EXTRA_SPENDING_ID, mEditedSpendingId);
+        Intent intent = null;
+        switch (mode) {
+            case NEW_SPENDING:
+                intent = new Intent(CategoryActivity.this, SpendingActivity.class);
+                intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
+                break;
+            case EDIT_SPENDING:
+                intent = new Intent(CategoryActivity.this, SpendingActivity.class);
+                intent.putExtra(SpendingActivity.EXTRA_SPENDING_ID, mEditedSpendingId);
+                intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
+                break;
+            case EDIT_NON_CONFIRMED_SPENDING:
+                //TODO if spending is not confirmed, open an keyword adding activity for selected category
+                intent = new Intent(CategoryActivity.this, SpendingActivity.class);
+                intent.putExtra(SpendingActivity.EXTRA_SPENDING_ID, mEditedSpendingId);
+                intent.putExtra(SpendingActivity.EXTRA_CATEGORY_ID, category.getId());
+                break;
+            case EDIT_KEYWORDS:
+                intent = new Intent(CategoryActivity.this, WordListEditActivity.class);
+                intent.putExtra(WordListEditActivity.EXTRA_MODE, WordListEditActivity.Mode.CATEGORY_KEYWORDS);
+                intent.putExtra(WordListEditActivity.EXTRA_CATEGORY_ID, category.getId());
+                intent.putExtra(WordListEditActivity.EXTRA_CATEGORY_NAME, category.getName());
+                break;
         }
         startActivity(intent);
     }

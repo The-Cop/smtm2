@@ -50,6 +50,12 @@
     <string name="settings_sms_delete_spendings_caption">Delete spendings</string>
     <string name="settings_sms_delete_spendings_desc">Delete by range, category or all of them</string>
 
+    <!--Words editing screen-->
+    <string name="words_edit_caption_category_keywords">Keywords:</string>
+    <string name="words_edit_caption_sms_go">Sms go-words</string>
+    <string name="words_edit_caption_sms_stop">Sms stop-words</string>
+    <string name="words_edit_add_hint">Add new</string>
+
 
     <!--Default categories-->
     <!--todo remove dev items-->

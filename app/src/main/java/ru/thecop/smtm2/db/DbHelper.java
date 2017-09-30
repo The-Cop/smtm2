@@ -209,4 +209,12 @@ public final class DbHelper {
                 .orderAsc(CategoryKeywordDao.Properties.Keyword)
                 .list();
     }
+
+    public static List<CategoryKeyword> findCategoryKeywords(ContextAndSessionHolder holder, long categoryId) {
+        CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
+        return keywordDao.queryBuilder()
+                .where(CategoryKeywordDao.Properties.CategoryId.eq(categoryId))
+                .orderAsc(CategoryKeywordDao.Properties.Keyword)
+                .list();
+    }
 }

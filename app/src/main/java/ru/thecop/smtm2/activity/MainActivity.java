@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // Create a new intent to start an category choose activity
                 Intent selectCategoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
+                selectCategoryIntent.putExtra(CategoryActivity.EXTRA_MODE, CategoryActivity.Mode.NEW_SPENDING);
                 startActivity(selectCategoryIntent);
             }
         });
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements
         //todo implement
         Intent selectCategoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
         selectCategoryIntent.putExtra(CategoryActivity.EXTRA_SPENDING_ID, spending.getId());
+        selectCategoryIntent.putExtra(CategoryActivity.EXTRA_MODE, CategoryActivity.Mode.EDIT_NON_CONFIRMED_SPENDING);
         startActivity(selectCategoryIntent);
     }
 
