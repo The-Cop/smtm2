@@ -146,6 +146,15 @@ public class CategoryKeyword {
         myDao.update(this);
     }
 
+    @Override
+    public String toString() {
+        return "CategoryKeyword{" +
+                "id=" + id +
+                ", keyword='" + keyword + '\'' +
+                ", categoryId=" + categoryId +
+                '}';
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1759791799)
     public void __setDaoSession(DaoSession daoSession) {

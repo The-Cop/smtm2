@@ -44,6 +44,10 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         notifyDataSetChanged();
     }
 
+    public List<String> getData() {
+        return mData;
+    }
+
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView word;

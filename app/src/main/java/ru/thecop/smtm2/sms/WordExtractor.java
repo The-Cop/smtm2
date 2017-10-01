@@ -15,6 +15,8 @@ public final class WordExtractor {
 
     public static Set<String> extractWords(String smsBody) {
         Pattern replaceNonWordCharsPattern;
+        //todo dont replace all non-word characters. dashes '-' are needed, as many other symbols too.
+        //replace only dots and commas?
         replaceNonWordCharsPattern = Pattern.compile("[^\\p{L}\\p{Nd}]");
 
         Set<String> result = new HashSet<>();

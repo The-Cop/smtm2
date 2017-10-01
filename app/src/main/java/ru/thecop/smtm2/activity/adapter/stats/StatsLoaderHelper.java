@@ -25,9 +25,10 @@ public class StatsLoaderHelper {
 
     public static StatsSpendingLoaderResult loadSpendingsStatsForDates(ContextAndSessionHolder contextAndSessionHolder,
                                                                        LocalDate dateFrom, LocalDate dateTo) {
-        List<Spending> spendings = DbHelper.findConfirmedSpendings(contextAndSessionHolder,
+        List<Spending> spendings = DbHelper.findConfirmedSpendings(
                 DateTimeUtils.convert(DateTimeUtils.atStartOfDay(dateFrom)),
-                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(dateTo)));
+                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(dateTo)),
+                contextAndSessionHolder);
 
         return new StatsSpendingLoaderResult(spendings, dateFrom, dateTo);
     }
@@ -45,16 +46,20 @@ public class StatsLoaderHelper {
 
         LocalDate definedDateFrom = DateTimeUtils.convert(earliestSpendingTimestamp).toLocalDate();
         LocalDate definedDateTo = DateTimeUtils.convert(latestSpendingTimestamp).toLocalDate();
-        List<CategoryStat> categoryStats = DbHelper.loadCategoriesStats(contextAndSessionHolder, earliestSpendingTimestamp, latestSpendingTimestamp);
+        List<CategoryStat> categoryStats = DbHelper.loadCategoriesStats(
+                earliestSpendingTimestamp,
+                latestSpendingTimestamp,
+                contextAndSessionHolder);
 
         return new StatsCategoryLoaderResult(categoryStats, definedDateFrom, definedDateTo);
     }
 
     public static StatsCategoryLoaderResult loadCategoryStatsForDates(ContextAndSessionHolder contextAndSessionHolder,
                                                                       LocalDate dateFrom, LocalDate dateTo) {
-        List<CategoryStat> categoryStats = DbHelper.loadCategoriesStats(contextAndSessionHolder,
+        List<CategoryStat> categoryStats = DbHelper.loadCategoriesStats(
                 DateTimeUtils.convert(DateTimeUtils.atStartOfDay(dateFrom)),
-                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(dateTo)));
+                DateTimeUtils.convert(DateTimeUtils.atEndOfDay(dateTo)),
+                contextAndSessionHolder);
 
         return new StatsCategoryLoaderResult(categoryStats, dateFrom, dateTo);
     }

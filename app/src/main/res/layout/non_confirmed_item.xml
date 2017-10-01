@@ -30,6 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp"/>
 
+        <!--todo move sum textview - ugly because depends on both images-->
         <ImageButton
                 app:srcCompat="@drawable/ic_done_black_24px"
                 android:tint="@android:color/white"

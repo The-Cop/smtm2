@@ -38,15 +38,15 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
         Spending s = mData.get(position);
         Category c = s.getCategory();
         //todo add sms text textView
-
         holder.date.setText(DateTimeUtils.convert(s.getTimestamp()).toString(Constants.DATE_DISPLAY_FORMAT_PATTERN));
         holder.amount.setText(Double.toString(s.getAmount()));
         holder.smsFrom.setText(s.getSmsFrom());
         holder.category.setText(c != null ? c.getName() : mContext.getString(R.string.no_category));
         //todo show sms text
-        //todo properly hide the confirm button
         if (c == null) {
             holder.confirmButton.setVisibility(View.GONE);
+        } else {
+            holder.confirmButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -58,6 +58,10 @@ public class NonConfirmedAdapter extends RecyclerView.Adapter<NonConfirmedAdapte
     public void setData(List<Spending> data) {
         this.mData = data;
         notifyDataSetChanged();
+    }
+
+    public List<Spending> getData() {
+        return mData;
     }
 
     class NonConfirmedViewHolder extends RecyclerView.ViewHolder {

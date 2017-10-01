@@ -81,7 +81,7 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<Spending> findConfirmedSpendings(ContextAndSessionHolder holder, long timestampFrom, long timestampTo) {
+    public static List<Spending> findConfirmedSpendings(long timestampFrom, long timestampTo, ContextAndSessionHolder holder) {
         SpendingDao spendingDao = holder.getSession().getSpendingDao();
         return spendingDao.queryBuilder()
                 .where(SpendingDao.Properties.Confirmed.eq(true),
@@ -172,9 +172,9 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<CategoryStat> loadCategoriesStats(ContextAndSessionHolder holder,
-                                                         long spendingsTimestampFrom,
-                                                         long spendingsTimestampTo) {
+    public static List<CategoryStat> loadCategoriesStats(long spendingsTimestampFrom,
+                                                         long spendingsTimestampTo,
+                                                         ContextAndSessionHolder holder) {
         String sql = "select ct." + CategoryDao.Properties.Id.columnName + " as catId"
                 + ", sum(sp." + SpendingDao.Properties.Amount.columnName + ") as total"
                 + ", count(sp." + SpendingDao.Properties.Id.columnName + ") as entries"
@@ -210,11 +210,43 @@ public final class DbHelper {
                 .list();
     }
 
-    public static List<CategoryKeyword> findCategoryKeywords(ContextAndSessionHolder holder, long categoryId) {
+    public static List<CategoryKeyword> findCategoryKeywords(long categoryId, ContextAndSessionHolder holder) {
         CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
         return keywordDao.queryBuilder()
                 .where(CategoryKeywordDao.Properties.CategoryId.eq(categoryId))
                 .orderAsc(CategoryKeywordDao.Properties.Keyword)
                 .list();
     }
+
+    public static CategoryKeyword findCategoryKeywordByKeyword(String keyword, ContextAndSessionHolder holder) {
+        CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
+        return keywordDao.queryBuilder()
+                .where(CategoryKeywordDao.Properties.Keyword.eq(keyword))
+                .unique();
+    }
+
+    public static CategoryKeyword createCategoryKeyword(String keyword, long categoryId, ContextAndSessionHolder holder) {
+        CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
+        CategoryKeyword categoryKeyword = new CategoryKeyword();
+        categoryKeyword.setCategoryId(categoryId);
+        categoryKeyword.setKeyword(keyword.toLowerCase());
+
+        keywordDao.insert(categoryKeyword);
+        Log.d(TAG, "Inserted new categoryKeyword " + categoryKeyword.toString());
+        return categoryKeyword;
+    }
+
+    public static boolean deleteCategoryKeyword(String keyword, ContextAndSessionHolder holder) {
+        CategoryKeywordDao keywordDao = holder.getSession().getCategoryKeywordDao();
+        CategoryKeyword categoryKeyword = findCategoryKeywordByKeyword(keyword, holder);
+        if (categoryKeyword == null) {
+            Log.d(TAG, "Failed to delete categoryKeyword " + keyword + " - not found");
+            return false;
+        }
+
+        keywordDao.delete(categoryKeyword);
+        Log.d(TAG, "Deleted categoryKeyword " + categoryKeyword.toString());
+        return true;
+    }
+
 }

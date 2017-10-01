@@ -20,6 +20,7 @@ import ru.thecop.smtm2.model.Spending;
 import ru.thecop.smtm2.preferences.PreferenceUtils;
 import ru.thecop.smtm2.sms.SmsReceivePermissionRequester;
 
+import java.util.Collections;
 import java.util.List;
 
 //todo refactor sample android:text to tools:text in layouts
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements
         if (data == null) {
             Log.e(TAG, "Failed to retrieve non-confirmed spendings");
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -119,7 +121,10 @@ public class MainActivity extends AppCompatActivity implements
     public void confirmButtonClick(Spending spending) {
         spending.setConfirmed(true);
         DbHelper.update(spending, (SmtmApplication) getApplication());
-        getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
+        mAdapter.getData().remove(spending);
+        mAdapter.notifyDataSetChanged();
+        //todo show success toast
+        //todo delete and add animations
     }
 
     @Override
@@ -136,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements
         if (key.equals(PreferenceUtils.PREF_HAS_NEW_SMS_PARSED)) {
             Log.d(TAG, "onSharedPreferenceChanged detected! Key = " + key);
             if (PreferenceUtils.getHasNewSmsParsed(this)) {
+                mAdapter.setData(Collections.EMPTY_LIST);
                 getSupportLoaderManager().restartLoader(NON_CONFIRMED_SPENDINGS_LOADER_ID, null, this);
                 PreferenceUtils.setHasNewSmsParsed(this, false);
             }

@@ -56,6 +56,16 @@
     <string name="words_edit_caption_sms_stop">Sms stop-words</string>
     <string name="words_edit_add_hint">Add new</string>
 
+    <string name="words_edit_exists">This word already exists in list</string>
+    <string name="words_edit_keyword_bound_other_category">This keyword is already used for category</string>
+
+    <string name="words_edit_confirm_delete">Delete the word?</string>
+
+
+    <!--Confirm dialog-->
+    <string name="dialog_confirm_ok">OK</string>
+    <string name="dialog_confirm_cancel">Cancel</string>
+
 
     <!--Default categories-->
     <!--todo remove dev items-->
