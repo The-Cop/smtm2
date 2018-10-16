@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
+            <!--todo elevation/shadow for upper buttons block-->
 
 
             <View
@@ -32,12 +33,10 @@
             <!--todo elevation for all buttons-->
             <!--todo settings screen-->
             <ImageButton
+                    style="@style/bigButton"
                     android:onClick="showSettingsActivity"
-                    android:layout_width="@dimen/main_screen_buttons_size"
-                    android:layout_height="@dimen/main_screen_buttons_size"
-                    android:background="@drawable/round_button"
                     app:srcCompat="@drawable/ic_settings_black_24px"
-                    android:tint="@android:color/white"/>
+                    />
             <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -45,12 +44,9 @@
                     android:layout_weight="1"/>
 
             <ImageButton
+                    style="@style/bigButton"
                     android:onClick="showStatsActivitySpendings"
-                    android:layout_width="@dimen/main_screen_buttons_size"
-                    android:layout_height="@dimen/main_screen_buttons_size"
-                    android:background="@drawable/round_button"
-                    app:srcCompat="@drawable/ic_list_black_24px"
-                    android:tint="@android:color/white"/>
+                    app:srcCompat="@drawable/ic_list_black_24px"/>
             <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -58,12 +54,9 @@
                     android:layout_weight="1"/>
 
             <ImageButton
+                    style="@style/bigButton"
                     android:onClick="showStatsActivityCategories"
-                    android:layout_width="@dimen/main_screen_buttons_size"
-                    android:layout_height="@dimen/main_screen_buttons_size"
-                    android:background="@drawable/round_button"
-                    app:srcCompat="@drawable/ic_sort_black_24px"
-                    android:tint="@android:color/white"/>
+                    app:srcCompat="@drawable/ic_sort_black_24px"/>
             <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"

@@ -30,21 +30,15 @@
                 android:layout_height="wrap_content"/>
 
         <ImageButton
+                style="@style/mediumButton"
                 android:onClick="decreaseDate"
                 android:layout_marginRight="15dp"
-                android:layout_width="@dimen/round_button_size"
-                android:layout_height="@dimen/round_button_size"
-                android:background="@drawable/round_button"
-                app:srcCompat="@drawable/ic_remove_black_24px"
-                android:tint="@android:color/white"/>
+                app:srcCompat="@drawable/ic_remove_black_24px"/>
 
         <ImageButton
+                style="@style/mediumButton"
                 android:onClick="increaseDate"
-                android:layout_width="@dimen/round_button_size"
-                android:layout_height="@dimen/round_button_size"
-                android:background="@drawable/round_button"
-                app:srcCompat="@drawable/ic_add_black_24px"
-                android:tint="@android:color/white"/>
+                app:srcCompat="@drawable/ic_add_black_24px"/>
 
     </LinearLayout>
 
@@ -69,11 +63,8 @@
             android:layout_weight="1"/>
 
     <ImageButton
-            android:layout_width="@dimen/save_button_size"
-            android:layout_height="@dimen/save_button_size"
-            android:background="@drawable/round_button_green"
+            style="@style/bigButtonSave"
             app:srcCompat="@drawable/ic_done_black_24px"
-            android:tint="@android:color/white"
             android:layout_gravity="bottom|end"
             android:onClick="save"/>
 </LinearLayout>

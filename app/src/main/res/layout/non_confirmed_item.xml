@@ -32,11 +32,8 @@
 
         <!--todo move sum textview - ugly because depends on both images-->
         <ImageButton
+                style="@style/mediumButtonSave"
                 app:srcCompat="@drawable/ic_done_black_24px"
-                android:tint="@android:color/white"
-                android:layout_width="@dimen/round_button_size"
-                android:layout_height="@dimen/round_button_size"
-                android:background="@drawable/round_button_green"
                 android:id="@+id/imageButtonConfirm"
                 android:layout_marginRight="8dp"
                 app:layout_constraintRight_toRightOf="parent"
@@ -54,10 +51,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
         <ImageButton
-                android:tint="@android:color/white"
-                android:layout_width="@dimen/round_button_size"
-                android:layout_height="@dimen/round_button_size"
-                android:background="@drawable/round_button_edit"
+                style="@style/mediumButtonEdit"
                 app:srcCompat="@drawable/ic_mode_edit_black_24px"
                 android:id="@+id/imageButtonEdit"
                 app:layout_constraintRight_toLeftOf="@+id/imageButtonConfirm"

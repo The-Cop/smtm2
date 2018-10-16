@@ -1,0 +1,41 @@
+<resources>
+
+    <style name="mediumButton">
+        <item name="android:layout_width">@dimen/button_size</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:tint">@android:color/white</item>
+        <item name="android:elevation">3dp</item>
+        <!--<item name="android:layout_margin">3dp</item>-->
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+    </style>
+
+    <style name="statsButton" parent="mediumButton">
+        <item name="android:layout_width">@dimen/stats_button_size</item>
+        <item name="android:layout_height">@dimen/stats_button_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="mediumButtonSave" parent="mediumButton">
+        <item name="android:background">@drawable/round_button_save</item>
+    </style>
+    <style name="mediumButtonEdit" parent="mediumButton">
+        <item name="android:background">@drawable/round_button_edit</item>
+    </style>
+
+    <style name="bigButton" parent="mediumButton">
+        <item name="android:layout_width">@dimen/big_button_size</item>
+        <item name="android:layout_height">@dimen/big_button_size</item>
+    </style>
+
+    <style name="bigButtonSave" parent="bigButton">
+        <item name="android:background">@drawable/round_button_save</item>
+    </style>
+
+
+
+</resources>

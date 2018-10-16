@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentDark">#b42d5b</color>
-    <color name="colorGreenButton">#4bca35</color>
-    <color name="colorGreenButtonDark">#327126</color>
+    <color name="colorSaveButton">#4bca35</color>
+    <color name="colorSaveButtonDark">#327126</color>
     <color name="colorEditButton">#cac835</color>
     <color name="colorEditButtonDark">#717126</color>
 </resources>
